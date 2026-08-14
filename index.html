@@ -1,3 +1,6 @@
+Try AI directly in your favorite apps … 
+Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI for IDR 309,000 IDR 77,000 for 3 months
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -45,84 +48,101 @@
     <!-- STEP 1: HALAMAN PEMILIHAN WARNA -->
     <main id="step1" class="w-full max-w-5xl px-4 py-8 flex flex-col transition-all duration-300">
         <div class="text-center mb-10">
-            <h2 class="text-[48px] md:text-4xl font-bold mb-2">Pilih Warna</h2>
-            <div class="relative inline-block text-[48px] md:text-4xl font-bold">
-                <span>Yang Kamu Suka</span>
-                <svg width="368" height="12" viewBox="0 0 368 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- HP: text-3xl (30px), Tablet: md:text-4xl (36px), PC: lg:text-[48px] (48px) -->
+            <h2 class="text-3xl md:text-4xl lg:text-[48px] font-bold mb-1 leading-tight">Pilih Warna</h2>
+            
+            <div class="relative inline-block text-3xl md:text-4xl lg:text-[48px] font-bold leading-tight">
+                <span class="relative z-10">Yang Kamu Suka</span>
+                <!-- Garis SVG fleksibel mengikuti lebar teks -->
+                <svg class="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-2.5 sm:h-3" viewBox="0 0 368 12" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3.17236 9.49995C97.6652 -1.50005 329.01 -3.50005 428.933 9.49995" stroke="#AC2D0D" stroke-width="6.3445" stroke-linecap="round"/>
                 </svg>
-
             </div>
+            <p id="errorPilihGambar" class="text-red-500 font-medium mt-4 hidden">
+                ⚠️ Silakan pilih salah satu gambar warna terlebih dahulu!
+            </p>
         </div>
 
-        <!-- Grid Kartu Pilihan Warna -->
+        <!-- PERBAIKAN 2: Penambahan fungsi onclick dan ID pada setiap kartu gambar -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div class="rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-2 hover:ring-[#f05d3a] transition-all group">
-                <img src="gambar/warm-elegant.jpg" alt="Warm Elegant" class="w-full h-48 object-cover">
-                <div class="p-4 bg-gray-600 group-hover:bg-[#f05d3a] transition-colors">
-                    <h3 class="font-semibold text-lg">Warm Elegant</h3>
-                </div>
-            </div>
-            
-            <div class="rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-2 hover:ring-[#f05d3a] transition-all group">
+            <div id="card-earthy" onclick="selectImageOption('earthy')" class="image-card rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group">
                 <img src="gambar/earthy.jpg" alt="Earthy" class="w-full h-48 object-cover">
                 <div class="p-4 bg-gray-600 group-hover:bg-[#f05d3a] transition-colors">
                     <h3 class="font-semibold text-lg">Earthy</h3>
                 </div>
             </div>
 
-            <div class="rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-2 hover:ring-[#f05d3a] transition-all group">
+            <div id="card-warm" onclick="selectImageOption('warm')" class="image-card rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group">
+                <img src="gambar/warm-elegant.jpg" alt="Warm Elegant" class="w-full h-48 object-cover">
+                <div class="p-4 bg-gray-600 group-hover:bg-[#f05d3a] transition-colors">
+                    <h3 class="font-semibold text-lg">Warm Elegant</h3>
+                </div>
+            </div>
+
+            <div id="card-cool" onclick="selectImageOption('cool')" class="image-card rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group">
                 <img src="gambar/cool-minimalist.jpg" alt="Cool Minimalist" class="w-full h-48 object-cover">
                 <div class="p-4 bg-gray-600 group-hover:bg-[#f05d3a] transition-colors">
                     <h3 class="font-semibold text-lg">Cool Minimalist</h3>
                 </div>
             </div>
         </div>
-        <div class="pb-5">
-            <label class="block text-sm font-medium mb-2 leading-snug">Seberapa sering Anda akan repainting/memperbarui tampilan rumah?</label>
-            <select class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
-                <option value="">Pilih Jawaban</option>
-                <option value="1">Sewaktu ada rembesan</option>
-                <option value="2">Menjelang hari raya</option>
-                <option value="3">5 tahun sekali</option>
-                <option value="4">10 tahun sekali</option>
-            </select>
-        </div>
-        <div class="pb-5">
-            <label class="block text-sm font-medium mb-2 leading-snug">Apa yang Anda khawatirkan saat melakukan repainting?</label>
-            <select class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
-                <option value="">Pilih Jawaban</option>
-                <option value="1">Salah memilih warna</option>
-                <option value="2">Biaya terlalu besar</option>
-                <option value="3">Hasil tidak sesuai</option>
-                <option value="4">Sulit mencari tenaga kerja</option>
-                <option value="5">Sulit menentukan konsep</option>
-                <option value="6">Perawatan setelah selesai</option>
-            </select>
-        </div>
 
-        <!-- Checkbox Data Personal -->
-        <div class="max-w-2xl w-full mx-auto border border-gray-700 bg-[#1c2331] p-5 rounded-xl flex items-center mb-8 shadow-lg">
-            <input type="checkbox" id="checkPersonalData" class="w-6 h-6 rounded bg-gray-300 border-transparent focus:ring-[#f05d3a] text-[#f05d3a] cursor-pointer" checked>
-            <div class="ml-4 cursor-pointer" onclick="document.getElementById('checkPersonalData').click()">
-                <h4 class="font-semibold text-lg">Lengkapi Data Personal</h4>
-                <p class="text-sm text-gray-400">Mohon lengkapi data diri Anda jika berkenan</p>
+        <!-- Pertanyaan Dropdown -->
+        <form id="formPertanyaanStep1">
+            <div class="pb-5">
+                <label class="block text-sm font-medium mb-2 leading-snug">Seberapa sering Anda akan repainting/memperbarui tampilan rumah?</label>
+                <select id="inputFrekuensi" required class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#f05d3a]">
+                    <option value="">Pilih Jawaban</option>
+                    <option value="Sewaktu ada rembesan">Sewaktu ada rembesan</option>
+                    <option value="Menjelang hari raya">Menjelang hari raya</option>
+                    <option value="5 tahun sekali">5 tahun sekali</option>
+                    <option value="10 tahun sekali">10 tahun sekali</option>
+                </select>
             </div>
-        </div>
+            
+            <div class="pb-5">
+                <label class="block text-sm font-medium mb-2 leading-snug">Apa yang Anda khawatirkan saat melakukan repainting?</label>
+                <select id="inputKekhawatiran" required class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#f05d3a]">
+                    <option value="">Pilih Jawaban</option>
+                    <option value="Salah memilih warna">Salah memilih warna</option>
+                    <option value="Biaya terlalu besar">Biaya terlalu besar</option>
+                    <option value="Hasil tidak sesuai">Hasil tidak sesuai</option>
+                    <option value="Sulit mencari tenaga kerja">Sulit mencari tenaga kerja</option>
+                    <option value="Sulit menentukan konsep">Sulit menentukan konsep</option>
+                    <option value="Perawatan setelah selesai">Perawatan setelah selesai</option>
+                </select>
+            </div>
 
-        <div class="flex justify-end max-w-5xl w-full mx-auto">
-            <button onclick="goToStep2()" class="bg-[#f05d3a] hover:bg-[#d94a2b] text-white px-6 py-2.5 rounded-lg font-medium flex items-center transition-colors">
-                Isi Kuisioner 
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-            </button>
-        </div>
+            <!-- PERBAIKAN 3: Penambahan onchange pada checkbox untuk memicu logika tombol -->
+            <div class="max-w-2xl w-full mx-auto border border-gray-700 bg-[#1c2331] p-5 rounded-xl flex items-center mb-8 shadow-lg">
+                <input type="checkbox" id="checkPersonalData" onchange="toggleActionButtons()" class="w-6 h-6 rounded bg-gray-300 border-transparent focus:ring-[#f05d3a] text-[#f05d3a] cursor-pointer" checked>
+                <div class="ml-4 cursor-pointer" onclick="document.getElementById('checkPersonalData').click()">
+                    <h4 class="font-semibold text-lg">Lengkapi Data Personal</h4>
+                    <p class="text-sm text-gray-400">Mohon lengkapi data diri Anda jika berkenan</p>
+                </div>
+            </div>
+
+            <!-- Tombol Navigasi Dinamis -->
+            <div id="btnIsiKuisionerContainer" class="flex justify-end max-w-5xl w-full mx-auto">
+                <button type="button" onclick="goToStep2()" class="bg-[#f05d3a] hover:bg-[#d94a2b] text-white px-6 py-2.5 rounded-lg font-medium flex items-center transition-colors">
+                    Isi Kuisioner 
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+
+            <div id="btnSimpanJawabanContainer" class="flex justify-center max-w-5xl w-full mx-auto hidden">
+                <button type="button" onclick="simpanJawabanLangsung()" class="bg-[#f05d3a] hover:bg-[#d94a2b] text-white px-8 py-3 rounded-lg font-medium flex items-center transition-colors shadow-lg">
+                    Simpan Jawaban
+                </button>
+            </div>
+        </form>
     </main>
 
     <!-- STEP 2: HALAMAN FORMULIR -->
     <main id="step2" class="w-full max-w-xl px-4 py-6 flex flex-col hidden transition-all duration-300">
-        <form id="formQuestionnaire" onsubmit="goToStep3(event)">
+        <form id="formQuestionnaire" onsubmit="processQuestionnaire(event)">
             
             <!-- Section Data Personal -->
             <section id="personalDataSection" class="bg-[#1c2331] rounded-2xl p-6 mb-6 border border-gray-800">
@@ -141,22 +161,23 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium mb-1">Nama</label>
-                        <input type="text" id="inputNama" placeholder="Jane Doe" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]">
+                        <input type="text" id="inputNama" placeholder="Jane Doe" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Nomor Telepon</label>
-                        <input type="tel" id="inputTelepon" placeholder="(+62) 123-4567" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]">
+                        <input type="tel" id="inputTelepon" placeholder="(+62) 123-4567" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Instagram</label>
-                        <input type="text" id="inputInstagram" placeholder="jane@example.com" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]">
+                        <input type="text" id="inputInstagram" placeholder="janedoe" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-1">Project Address</label>
-                        <textarea id="inputAlamat" rows="3" placeholder="123 Paintbrush Lane, Springfield" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a] resize-none"></textarea>
+                        <textarea id="inputAlamat" rows="3" placeholder="123 Paintbrush Lane, Springfield" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a] resize-none" required></textarea>
                     </div>
                 </div>
             </section>
+
             <!-- Section Pertanyaan Kuisioner -->
             <section class="bg-[#1c2331] rounded-2xl p-6 border border-gray-800 mb-6">
                 <div class="flex items-center mb-6">
@@ -174,107 +195,104 @@
                 <div class="space-y-5">
                     <div>
                         <label class="block text-sm font-medium mb-2 leading-snug">Saat pulang ke rumah setelah hari yang melelahkan, suasana seperti apa yang paling Anda inginkan?</label>
-                        <select class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
+                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
                             <option value="">Pilih Jawaban</option>
-                            <option value="1">Tenang dan menenangkan</option>
-                            <option value="2">Cerah dan penuh semangat</option>
-                            <option value="3">Hangat dan akrab</option>
-                            <option value="4">Elegan dan berkelas</option>
-                            <option value="5">Segar seperti berada di alam</option>
-                            <option value="6">Kreatif dan penuh karakter</option>
+                            <option value="style1,style2">Tenang dan menenangkan</option>
+                            <option value="style5">Cerah dan penuh semangat</option>
+                            <option value="style2">Hangat dan akrab</option>
+                            <option value="style4">Elegan dan berkelas</option>
+                            <option value="style3">Segar seperti berada di alam</option>
+                            <option value="style5">Kreatif dan penuh karakter</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-2 leading-snug">Anda lebih menyukai ruangan yang...</label>
-                        <select class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
+                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
                             <option value="">Pilih Jawaban</option>
-                            <option value="1">Terlihat luas dan bersih</option>
-                            <option value="2">Hangat dan nyaman</option>
-                            <option value="3">Mewah</option>
-                            <option value="4">Modern</option>
-                            <option value="5">Natural</option>
-                            <option value="6">Berani tampil beda</option>
+                            <option value="style1">Terlihat luas dan bersih</option>
+                            <option value="style2">Hangat dan nyaman</option>
+                            <option value="style4">Mewah</option>
+                            <option value="style1,style4">Modern</option>
+                            <option value="style3">Natural</option>
+                            <option value="style5">Berani tampil beda</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-2 leading-snug">Ketika melihat sebuah ruangan, apa yang paling menarik perhatian Anda?</label>
-                        <select class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
+                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
                             <option value="">Pilih Jawaban</option>
-                            <option value="1">Warna dinding</option>
-                            <option value="2">Pencahayaan</option>
-                            <option value="3">Furnitur</option>
-                            <option value="4">Dekorasi</option>
-                            <option value="5">Keserasian keseluruhan</option>
+                            <option value="style1">Warna dinding</option>
+                            <option value="style4">Pencahayaan</option>
+                            <option value="style2,style3">Furnitur</option>
+                            <option value="style5">Dekorasi</option>
+                            <option value="style1,style4">Keserasian keseluruhan</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-2 leading-snug">Jika harus memilih satu kata untuk menggambarkan rumah impian Anda</label>
-                        <select class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
+                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
                             <option value="">Pilih Jawaban</option>
-                            <option value="1">Calm</option>
-                            <option value="2">Cozy</option>
-                            <option value="3">Elegant</option>
-                            <option value="4">Fresh</option>
-                            <option value="5">Luxury</option>
-                            <option value="6">Simple</option>
-                            <option value="7">Cheerful</option>
-                            <option value="8">Artistic</option>
+                            <option value="style1">Calm</option>
+                            <option value="style2">Cozy</option>
+                            <option value="style4">Elegant</option>
+                            <option value="style3">Fresh</option>
+                            <option value="style4">Luxury</option>
+                            <option value="style1">Simple</option>
+                            <option value="style5">Cheerful</option>
+                            <option value="style5">Artistic</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-2 leading-snug">Anda lebih menyukai warna yang...</label>
-                        <select class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
+                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
                             <option value="">Pilih Jawaban</option>
-                            <option value="1">Terang</option>
-                            <option value="2">Lembut</option>
-                            <option value="3">Gelap</option>
-                            <option value="4">Netral</option>
-                            <option value="5">Natural</option>
-                            <option value="6">Berani</option>
+                            <option value="style1">Terang</option>
+                            <option value="style2">Lembut</option>
+                            <option value="style4">Gelap</option>
+                            <option value="style1,style2">Netral</option>
+                            <option value="style3">Natural</option>
+                            <option value="style5">Berani</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-2 leading-snug">Seberapa berani Anda mencoba warna baru?</label>
-                        <select class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
+                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
                             <option value="">Pilih Jawaban</option>
-                            <option value="1">Sangat berani</option>
-                            <option value="2">Cukup berani</option>
-                            <option value="3">Kadang-kadang</option>
-                            <option value="4">Lebih nyaman dengan warna aman</option>
+                            <option value="style5">Sangat berani</option>
+                            <option value="style5,style4">Cukup berani</option>
+                            <option value="style3,style2">Kadang-kadang</option>
+                            <option value="style1">Lebih nyaman dengan warna aman</option>
                         </select>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium mb-2 leading-snug">Furnitur rumah Anda didominasi oleh warna...</label>
-                        <select class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
+                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
                             <option value="">Pilih Jawaban</option>
-                            <option value="1">Putih</option>
-                            <option value="2">Kayu Natural</option>
-                            <option value="3">Hitam</option>
-                            <option value="4">Abu-abu</option>
-                            <option value="5">Cokelat</option>
-                            <option value="6">Beragam warna</option>
+                            <option value="style1">Putih</option>
+                            <option value="style2,style3">Kayu Natural</option>
+                            <option value="style4">Hitam</option>
+                            <option value="style1,style4">Abu-abu</option>
+                            <option value="style2,style4">Cokelat</option>
+                            <option value="style5">Beragam warna</option>
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-2 leading-snug">Layanan tambahan 
-                            
-                            
-                            apa yang paling Anda harapkan ketika sedang mempercantik rumah?</label>
-                        <select class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
+                        <label class="block text-sm font-medium mb-2 leading-snug">Layanan tambahan apa yang paling Anda harapkan ketika sedang mempercantik rumah?</label>
+                        <select id="inputLayanan" required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
                             <option value="">Pilih Jawaban</option>
-                            <option value="1">Konsultasi warna</option>
-                            <option value="2">Simulasi desain</option>
-                            <option value="3">Rekomendasi aplikator</option>
-                            <option value="4">Survei lokasi</option>
-                            <option value="5">Estimasi biaya</option>
-                            <option value="6">Pengiriman cepat</option>
+                            <option value="Konsultasi Warna">Konsultasi warna</option>
+                            <option value="Simulasi Desain">Simulasi desain</option>
+                            <option value="Rekomendasi Aplikator">Rekomendasi aplikator</option>
+                            <option value="Survei Lokasi">Survei lokasi</option>
+                            <option value="Estimasi Biaya">Estimasi biaya</option>
+                            <option value="Pengiriman Cepat">Pengiriman cepat</option>
                         </select>
                     </div>
 
@@ -325,7 +343,7 @@
                     </svg>
                     <span>Rekomendasi Style</span>
                 </div>
-                <p class="text-lg font-bold text-white">Calm & Natural</p>
+                <p id="resStyleName" class="text-lg font-bold text-white">Calm & Natural</p>
             </div>
         </div>
 
@@ -333,52 +351,23 @@
         <div class="space-y-2">
             <h3 class="text-base font-semibold text-gray-200">Palet Warna Rekomendasi</h3>
             <div class="bg-[#1c2331] rounded-2xl p-6 border border-gray-800 space-y-6">
-                <!-- Color Blocks -->
-                <div class="flex h-24 rounded-xl overflow-hidden">
-                    <div class="w-1/3 bg-[#C2C6D4]"></div>
-                    <div class="w-1/3 bg-[#FFB5A0]"></div>
-                    <div class="w-1/3 bg-[#273647]"></div>
-                </div>
-
-                <!-- Color Details List -->
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between text-sm">
-                        <div class="flex items-center space-x-3">
-                            <span class="w-3.5 h-3.5 rounded-full bg-[#273647] inline-block"></span>
-                            <span class="font-medium text-gray-300">Cloud Grey</span>
-                        </div>
-                        <span class="font-mono text-xs text-gray-400">#273647</span>
-                    </div>
-                    <div class="flex items-center justify-between text-sm">
-                        <div class="flex items-center space-x-3">
-                            <span class="w-3.5 h-3.5 rounded-full bg-[#C2C6D4] inline-block"></span>
-                            <span class="font-medium text-gray-300">Dusk Mist</span>
-                        </div>
-                        <span class="font-mono text-xs text-gray-400">#C2C6D4</span>
-                    </div>
-                    <div class="flex items-center justify-between text-sm">
-                        <div class="flex items-center space-x-3">
-                            <span class="w-3.5 h-3.5 rounded-full bg-[#FFB5A0] inline-block"></span>
-                            <span class="font-medium text-gray-300">Sunset Orange</span>
-                        </div>
-                        <span class="font-mono text-xs text-gray-400">#FFB5A0</span>
-                    </div>
-                </div>
+                <!-- Color Blocks Injected via JS -->
+                <div id="colorContainer" class="flex h-24 rounded-xl overflow-hidden"></div>
+                <!-- Color List Injected via JS -->
+                <div id="colorList" class="space-y-3"></div>
             </div>
         </div>
 
         <!-- Tips Desainer -->
-        <div class="bg-[#1c2331] rounded-2xl p-5 border border-gray-800 space-y-2">
+        <!-- <div class="bg-[#1c2331] rounded-2xl p-5 border border-gray-800 space-y-2">
             <div class="flex items-center space-x-2 text-sm font-semibold text-gray-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
                 <span>Tips Desainer</span>
             </div>
-            <p class="text-xs text-gray-400 leading-relaxed">
-                Gunakan 'Sunset Orange' sebagai warna aksen pada bantal atau karya seni kecil, sementara 'Abyss Slate' dan 'Cloud Grey' menjadi pondasi utama pada dinding dan furnitur besar.
-            </p>
-        </div>
+            <p id="resTips" class="text-xs text-gray-400 leading-relaxed font-worksans"></p>
+        </div> -->
 
         <!-- Action Buttons -->
         <div class="pt-2 space-y-3">
@@ -389,17 +378,44 @@
                 <span>Simpan Jawaban</span>
             </button>
 
-            <button onclick="alert('Mengarahkan ke konsultasi desainer...')" class="w-full bg-transparent hover:bg-gray-800 text-gray-300 py-3 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-colors border border-transparent">
+            <!-- <button onclick="alert('Mengarahkan ke konsultasi desainer...')" class="w-full bg-transparent hover:bg-gray-800 text-gray-300 py-3 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-colors border border-transparent">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
                 <span>Konsultasi dengan Desainer</span>
-            </button>
+            </button> -->
         </div>
     </main>
 
     <!-- NAVIGATION & DYNAMIC DATA LOGIC -->
     <script>
+        const resultDatabase = {
+            style1: {
+                styleName: "Minimalis Modern",
+                colors: [{name: "Cloud Grey", hex: "#273647"}, {name: "Dusk Mist", hex: "#C2C6D4"}, {name: "Arctic White", hex: "#F3F4F6"}]
+            },
+            style2: {
+                styleName: "Cozy Scandinavian",
+                colors: [{name: "Creamy Latte", hex: "#FDF5E6"}, {name: "Warm Taupe", hex: "#D4B896"}, {name: "Muted Terracotta", hex: "#1E3A8A"}]
+            },
+            style3: {
+                styleName: "Natural Tropical",
+                colors: [{name: "Sage Green", hex: "#8F9779"}, {name: "Rattan Beige", hex: "#E3D5CA"}, {name: "Deep Earth", hex: "#5C4033"}]
+            },
+            style4: {
+                styleName: "Elegant Luxury",
+                colors: [{name: "Pearl White", hex: "#F8F9FA"}, {name: "Champagne Gold", hex: "#D4AF37"}, {name: "Onyx Black", hex: "#0F0F0F"}]
+            },
+            style5: {
+                styleName: "Eclectic & Expressive",
+                colors: [{name: "Sunset Orange", hex: "#FFB5A0"}, {name: "Dusty Rose", hex: "#DCAE96"}, {name: "Sunny Yellow", hex: "#F4D03F"}]
+            }
+            // style6: {
+            //     styleName: "Modern Luxury",
+            //     colors: [{name: "Onyx Black", hex: "#0F0F0F"}, {name: "Champagne Gold", hex: "#D4AF37"}, {name: "Pearl White", hex: "#F8F9FA"}],
+            //     tips: "Aplikasikan 'Champagne Gold' secara subtil pada gagang pintu, dipadukan dengan 'Onyx Black' untuk kontras maksimal."
+            // }
+        };
         let currentStep = 1;
 
         const step1 = document.getElementById('step1');
@@ -409,6 +425,69 @@
         const navTitle = document.getElementById('navTitle');
         const personalDataSection = document.getElementById('personalDataSection');
         const checkPersonalData = document.getElementById('checkPersonalData');
+
+        let selectedImageStyle = "";
+
+        function selectImageOption(styleId) {
+            // 1. Simpan data pilihan pengguna
+            selectedImageStyle = styleId;
+            
+            // 2. Reset semua kartu ke kondisi awal (Hapus ring & kembalikan warna bawah ke abu-abu)
+            const allCards = document.querySelectorAll('.image-card');
+            allCards.forEach(card => {
+                // Hapus garis seleksi
+                card.classList.remove('ring-4', 'ring-[#f05d3a]');
+                
+                // Kembalikan background kotak teks ke abu-abu
+                const textBox = card.querySelector('div.p-4');
+                if (textBox) {
+                    textBox.classList.remove('bg-[#f05d3a]');
+                    textBox.classList.add('bg-gray-600');
+                }
+            });
+
+            // 3. Tambahkan status 'terpilih' secara penuh pada kartu yang diklik
+            const selectedCard = document.getElementById('card-' + styleId);
+            if (selectedCard) {
+                // Tambahkan garis seleksi
+                selectedCard.classList.add('ring-4', 'ring-[#f05d3a]');
+                
+                // Kunci background kotak teks menjadi oranye
+                const selectedTextBox = selectedCard.querySelector('div.p-4');
+                if (selectedTextBox) {
+                    selectedTextBox.classList.remove('bg-gray-600');
+                    selectedTextBox.classList.add('bg-[#f05d3a]');
+                }
+            }
+        }
+
+        // Fungsi untuk mengubah tombol berdasarkan status checkbox
+        function toggleActionButtons() {
+            const isChecked = document.getElementById('checkPersonalData').checked;
+            const btnIsi = document.getElementById('btnIsiKuisionerContainer');
+            const btnSimpan = document.getElementById('btnSimpanJawabanContainer');
+
+            if (isChecked) {
+                // Jika dicentang: Tampilkan tombol 'Isi Kuisioner' di kanan, Sembunyikan 'Simpan'
+                btnIsi.classList.remove('hidden');
+                btnSimpan.classList.add('hidden');
+            } else {
+                // Jika TIDAK dicentang: Tampilkan tombol 'Simpan Jawaban' di tengah, Sembunyikan 'Isi Kuisioner'
+                btnIsi.classList.add('hidden');
+                btnSimpan.classList.remove('hidden');
+            }
+        }
+
+        // Fungsi aksi jika pengguna memilih 'Simpan Jawaban' langsung di Step 1
+        // function simpanJawabanLangsung() {
+        //     if (!selectedImageStyle) {
+        //         alert("Silakan pilih salah satu gambar warna yang Anda suka terlebih dahulu!");
+        //         return;
+        //     }
+            
+        //     alert("Jawaban Anda berhasil disimpan! Style terpilih: " + selectedImageStyle);
+        //     // Masukkan logika eksekusi Anda selanjutnya di sini (misal: kirim ke database atau render hasil).
+        // }
 
         function goToStep1() {
             currentStep = 1;
@@ -420,7 +499,48 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // function goToStep2() {
+        //     currentStep = 2;
+        //     step1.classList.add('hidden');
+        //     step2.classList.remove('hidden');
+        //     step3.classList.add('hidden');
+        //     btnBack.classList.remove('hidden');
+        //     navTitle.innerText = "Kuisioner Warna Impian";
+
+        //     // Tampilkan/Sembunyikan form Data Personal sesuai checkbox di Step 1
+        //     if (checkPersonalData.checked) {
+        //         personalDataSection.style.display = 'block';
+        //     } else {
+        //         personalDataSection.style.display = 'none';
+        //     }
+        //     window.scrollTo({ top: 0, behavior: 'smooth' });
+        // }
+
         function goToStep2() {
+            const errorText = document.getElementById('errorPilihGambar');
+
+            // 1. Cek apakah gambar belum dipilih
+            if (!selectedImageStyle || selectedImageStyle === "") {
+                // Tampilkan pesan error berwarna merah
+                errorText.classList.remove('hidden');
+                
+                // Opsional: Gulir layar (scroll) kembali ke atas agar pengguna melihat pesan error
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                return; // Hentikan eksekusi! Jangan lanjut ke halaman berikutnya
+            }
+
+            // 2. Jika sudah memilih gambar, sembunyikan error (berjaga-jaga jika sebelumnya muncul)
+            errorText.classList.add('hidden');
+            // 3. Lanjutkan eksekusi ke Step 2
+            console.log("Gambar sudah dipilih: " + selectedImageStyle);
+
+            const formPertanyaan = document.getElementById('formPertanyaanStep1');
+            // Mengecek form valid atau tidak, sekaligus memunculkan peringatan jika tidak valid
+            if (!formPertanyaan.reportValidity()) {
+                return; // Hentikan eksekusi, biarkan pengguna mengisi dropdown
+            }
+
             currentStep = 2;
             step1.classList.add('hidden');
             step2.classList.remove('hidden');
@@ -428,7 +548,6 @@
             btnBack.classList.remove('hidden');
             navTitle.innerText = "Kuisioner Warna Impian";
 
-            // Tampilkan/Sembunyikan form Data Personal sesuai checkbox di Step 1
             if (checkPersonalData.checked) {
                 personalDataSection.style.display = 'block';
             } else {
@@ -437,32 +556,32 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function goToStep3(e) {
-            if (e) e.preventDefault();
-            currentStep = 3;
-            step1.classList.add('hidden');
-            step2.classList.add('hidden');
-            step3.classList.remove('hidden');
-            btnBack.classList.remove('hidden');
-            navTitle.innerText = "Hasil Kuesioner";
+        // function goToStep3(e) {
+        //     if (e) e.preventDefault();
+        //     currentStep = 3;
+        //     step1.classList.add('hidden');
+        //     step2.classList.add('hidden');
+        //     step3.classList.remove('hidden');
+        //     btnBack.classList.remove('hidden');
+        //     navTitle.innerText = "Hasil Kuesioner";
 
-            // Render nama & inisial responden secara dinamis
-            const inputNama = document.getElementById('inputNama').value.trim();
-            const resNameEl = document.getElementById('resName');
-            const resAvatarEl = document.getElementById('resAvatar');
+        //     // Render nama & inisial responden secara dinamis
+        //     const inputNama = document.getElementById('inputNama').value.trim();
+        //     const resNameEl = document.getElementById('resName');
+        //     const resAvatarEl = document.getElementById('resAvatar');
 
-            if (checkPersonalData.checked && inputNama !== "") {
-                resNameEl.innerText = inputNama;
-                // Ambil inisial 2 kata pertama
-                const initials = inputNama.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-                resAvatarEl.innerText = initials || "JD";
-            } else {
-                resNameEl.innerText = "Anonim";
-                resAvatarEl.innerText = "AN";
-            }
+        //     if (checkPersonalData.checked && inputNama !== "") {
+        //         resNameEl.innerText = inputNama;
+        //         // Ambil inisial 2 kata pertama
+        //         const initials = inputNama.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        //         resAvatarEl.innerText = initials || "JD";
+        //     } else {
+        //         resNameEl.innerText = "Anonim";
+        //         resAvatarEl.innerText = "AN";
+        //     }
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        //     window.scrollTo({ top: 0, behavior: 'smooth' });
+        // }
 
         function handleBack() {
             if (currentStep === 3) {
@@ -472,9 +591,171 @@
             }
         }
 
+        // document.getElementById('formDataPersonal').addEventListener('submit', function(event) {
+        //     // Mencegah form untuk reload halaman secara default
+        //     event.preventDefault(); 
+            
+        //     // Mengecek apakah semua input yang memiliki atribut 'required' sudah diisi
+        //     if (!this.checkValidity()) {
+        //         return; 
+        //     }
+
+        //     // Jika sudah valid, lanjutkan proses ke halaman hasil
+        //     tampilkanHalamanHasil(); 
+        // });
+
+        function tampilkanHalamanHasil() {
+            console.log("Data lengkap. Melanjutkan ke halaman hasil...");
+        }
+
+        // --- 3. ALGORITMA PERHITUNGAN HASIL KUESIONER ---
+        function processQuestionnaire(e) {
+            e.preventDefault(); // Mencegah reload halaman
+            
+            // Inisialisasi poin
+            const scores = { style1: 0, style2: 0, style3: 0, style4: 0, style5: 0, style6: 0 };
+            const selectElements = document.querySelectorAll('.q-select');
+            
+            // Hitung poin dari setiap jawaban dropdown
+            selectElements.forEach(select => {
+                const answerValue = select.value;
+                if(answerValue) {
+                    const stylesToReward = answerValue.split(','); // Pecah value (misal: "style1,style5")
+                    stylesToReward.forEach(style => {
+                        if(scores[style] !== undefined) scores[style] += 1;
+                    });
+                }
+            });
+
+            // Tentukan pemenang (skor tertinggi)
+            let winningStyle = Object.keys(scores)[0];
+            let maxScore = scores[winningStyle];
+            for (const style in scores) {
+                if (scores[style] > maxScore) {
+                    maxScore = scores[style];
+                    winningStyle = style;
+                }
+            }
+
+            renderResult(resultDatabase[winningStyle]);
+        }
+
+        // --- 4. MERENDER DATA KE HALAMAN 3 ---
+        function renderResult(resultData) {
+            currentStep = 3;
+            step1.classList.add('hidden'); step2.classList.add('hidden'); step3.classList.remove('hidden');
+            btnBack.classList.remove('hidden');
+            navTitle.innerText = "Hasil Kuesioner";
+
+            // 1. Profil Biodata
+            const inputNama = document.getElementById('inputNama').value.trim();
+            const resNameEl = document.getElementById('resName');
+            const resAvatarEl = document.getElementById('resAvatar');
+
+            if (checkPersonalData.checked && inputNama !== "") {
+                resNameEl.innerText = inputNama;
+                const initials = inputNama.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                resAvatarEl.innerText = initials || "JD";
+            } else {
+                resNameEl.innerText = "Anonim";
+                resAvatarEl.innerText = "AN";
+            }
+
+            // 2. Data Style & Tips
+            document.getElementById('resStyleName').innerText = resultData.styleName;
+            // document.getElementById('resTips').innerText = resultData.tips;
+
+            // 3. Injeksi Elemen Warna Secara Dinamis
+            const colorContainer = document.getElementById('colorContainer');
+            const colorList = document.getElementById('colorList');
+            colorContainer.innerHTML = '';
+            colorList.innerHTML = '';
+
+            // Buat array persentase lebar: warna 1 (60%), warna 2 (30%), warna 3 (10%)
+            const widths = ['60%', '30%', '10%'];
+
+            resultData.colors.forEach((c, index) => {
+                // Gunakan lebar sesuai urutan indeksnya (default ke 33.3% jika data warna lebih dari 3)
+                const currentWidth = widths[index] || '33.3%';
+
+                // Render Kotak Palet Atas dengan proporsi 60%, 30%, 10%
+                colorContainer.innerHTML += `
+                    <div style="width: ${currentWidth}; background-color: ${c.hex};" class="h-full transition-all"></div>
+                `;
+
+                // Render Daftar Keterangan Warna (Tetap sama)
+                colorList.innerHTML += `
+                    <div class="flex items-center justify-between text-sm">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-3.5 h-3.5 rounded-full inline-block" style="background-color: ${c.hex}"></span>
+                            <span class="font-medium text-gray-300">${c.name}</span>
+                        </div>
+                        <span class="font-mono text-xs text-gray-400">${c.hex}</span>
+                    </div>
+                `;
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybM_Awj792Xy4d9X-UzPXO2FVBJN62djn5l90L4aLCAyv1d6qmuVfoVPFB2UCEV7YJrg/exec";
+
+        // 2. Fungsi Utama Pengiriman Data ke Google Sheet
+        function sendDataToGoogleSheet(dataPayload) {
+            // Tampilkan penanda proses loading jika diperlukan
+            console.log("Mengirim data...", dataPayload);
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Menghindari kendala CORS dari Google Script
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: JSON.stringify(dataPayload)
+            })
+            .then(() => {
+                alert("Jawaban berhasil disimpan ke Google Sheet!");
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Gagal menyimpan data. Silakan periksa koneksi internet Anda.");
+            });
+        }
+
+        // 3. Fungsi Pengumpulan Data Saat Tombol 'Simpan Jawaban' Diklik (Di Step 1 atau Step 3)
+        function collectAndSaveData(hasilStyleNama = "-") {
+            const isPersonalChecked = document.getElementById('checkPersonalData').checked;
+
+            // Ambil data dari elemen form HTML
+            const payload = {
+                nama: isPersonalChecked ? document.getElementById('inputNama').value : "Anonim",
+                telepon: isPersonalChecked ? document.getElementById('inputTelepon').value : "-",
+                instagram: isPersonalChecked ? document.getElementById('inputInstagram').value : "-",
+                alamat: isPersonalChecked ? document.getElementById('inputAlamat').value : "-",
+                pilihanGambar: selectedImageStyle || "-", // Dari variabel pemilihan gambar
+                frekuensiRepainting: document.getElementById('inputFrekuensi')?.value || "-",
+                kekhawatiran: document.getElementById('inputKekhawatiran')?.value || "-",
+                layanan: document.getElementById('inputLayanan')?.value || "-",
+                hasilStyle: hasilStyleNama
+            };
+
+            // Kirim objek data ke Google Sheet
+            sendDataToGoogleSheet(payload);
+        }
+
+        // 4. Update fungsi Simpan Jawaban Langsung (Jika user tidak centang data personal di Step 1)
+        function simpanJawabanLangsung() {
+            if (!selectedImageStyle) {
+                alert("Silakan pilih salah satu gambar terlebih dahulu!");
+                return;
+            }
+            collectAndSaveData("Tanpa Kuesioner (Hanya Pilihan Gambar)");
+        }
+
+        // 5. Update fungsi simpan akhir di Step 3 (Hasil Kuesioner)
         function saveFinalData() {
-            // Tempat menambahkan logika penyimpanan (localStorage, Google Sheets, atau pemicu download)
-            alert('Jawaban berhasil disimpan!');
+            const styleRes = document.getElementById('resStyleName').innerText;
+            collectAndSaveData(styleRes);
         }
     </script>
 </body>
