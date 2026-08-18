@@ -1,3 +1,6 @@
+Try AI directly in your favorite apps … 
+Use Gemini to generate drafts and refine content, plus get Gemini Pro with access to Google's next-gen AI for IDR 309,000 IDR 77,000 for 3 months
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -20,13 +23,134 @@
         .font-worksans {
             font-family: "Work Sans", sans-serif;
         }
-        
+
         select {
             appearance: none;
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
             background-position: right 0.75rem center;
             background-repeat: no-repeat;
             background-size: 1.5em 1.5em;
+        }
+
+        /* ---------- Progress bar (paint drip metaphor) ---------- */
+        .progress-track {
+            position: relative;
+            height: 10px;
+            border-radius: 999px;
+            background: #1c2331;
+            border: 1px solid #2a3447;
+            overflow: visible;
+        }
+        .progress-fill {
+            position: relative;
+            height: 100%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #AC2D0D, #f05d3a);
+            transition: width .45s cubic-bezier(.4,0,.2,1);
+        }
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            width: 13px;
+            height: 13px;
+            border-radius: 50% 50% 50% 0;
+            background: #f05d3a;
+            transform: translateY(-50%) rotate(45deg);
+            box-shadow: 0 0 8px rgba(240,93,58,.65);
+        }
+
+        /* ---------- Choice buttons ---------- */
+        .opt-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            text-align: left;
+            padding: 0.85rem 1rem;
+            border-radius: 0.85rem;
+            border: 1px solid #374151;
+            background: #121824;
+            color: #e5e7eb;
+            cursor: pointer;
+            transition: transform .15s ease, border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+        }
+        .opt-btn:hover { border-color: #f05d3a; background: rgba(240,93,58,0.08); transform: translateY(-2px); }
+        .opt-btn:focus-visible { outline: 2px solid #f05d3a; outline-offset: 2px; }
+        .opt-btn.selected {
+            border-color: #f05d3a;
+            background: rgba(240,93,58,0.16);
+            box-shadow: 0 0 0 2px rgba(240,93,58,.35);
+            animation: popScale .28s ease;
+        }
+        .opt-emoji { font-size: 1.25rem; line-height: 1; flex-shrink: 0; }
+        .opt-label { font-size: 0.9rem; font-weight: 500; flex: 1; line-height: 1.3; }
+        .opt-check {
+            opacity: 0; transform: scale(.5);
+            transition: all .2s ease;
+            color: #f05d3a; font-weight: 800; flex-shrink: 0;
+        }
+        .opt-btn.selected .opt-check { opacity: 1; transform: scale(1); }
+
+        .icon-box {
+            width: 2.75rem; height: 2.75rem;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem; line-height: 1;
+        }
+
+        /* ---------- Animations ---------- */
+        @keyframes popScale {
+            0% { transform: scale(.96); }
+            50% { transform: scale(1.035); }
+            100% { transform: scale(1); }
+        }
+        @keyframes slideFadeIn {
+            from { opacity: 0; transform: translateX(18px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .anim-slide-in { animation: slideFadeIn .38s cubic-bezier(.4,0,.2,1); }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .anim-fade-up { animation: fadeUp .5s ease both; }
+
+        @keyframes floatBlob {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(18px) scale(1.05); }
+        }
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(60px);
+            opacity: .32; z-index: 0; pointer-events: none;
+            animation: floatBlob 9s ease-in-out infinite;
+        }
+        .blob-a { width: 220px; height: 220px; background: #f05d3a; top: -70px; left: -50px; }
+        .blob-b { width: 190px; height: 190px; background: #AC2D0D; bottom: -60px; right: -40px; animation-delay: 2.2s; }
+
+        input[type="checkbox"]:checked { animation: popScale .25s ease; }
+
+        /* ---------- Result page: paint splatter ---------- */
+        .splatter-layer { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+        .splatter-dot {
+            position: absolute; border-radius: 50%; opacity: 0;
+            animation: dotPop .55s ease forwards;
+        }
+        @keyframes dotPop {
+            0% { opacity: 0; transform: scale(0); }
+            60% { opacity: .9; transform: scale(1.2); }
+            100% { opacity: .75; transform: scale(1); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .001ms !important;
+                scroll-behavior: auto !important;
+            }
         }
     </style>
 </head>
@@ -40,77 +164,104 @@
             </svg>
         </button>
         <h1 id="navTitle" class="text-lg font-semibold tracking-wide">Kuisioner Warna Impian</h1>
+        <div id="xpBadge" style="display:none;" class="ml-auto items-center gap-1.5 text-xs font-bold bg-[#1c2331] border border-gray-700 rounded-full px-3 py-1.5 text-[#f05d3a]">
+            <span>🏆</span><span id="xpValue">0</span><span class="text-gray-400 font-medium">XP</span>
+        </div>
     </nav>
 
     <!-- STEP 1: HALAMAN PEMILIHAN WARNA -->
     <main id="step1" class="w-full max-w-5xl px-4 py-8 flex flex-col transition-all duration-300">
-        <div class="text-center mb-10">
-            <!-- HP: text-3xl (30px), Tablet: md:text-4xl (36px), PC: lg:text-[48px] (48px) -->
-            <h2 class="text-3xl md:text-4xl lg:text-[48px] font-bold mb-1 leading-tight">Pilih Warna</h2>
-            
-            <div class="relative inline-block text-3xl md:text-4xl lg:text-[48px] font-bold leading-tight">
-                <span class="relative z-10">Yang Kamu Suka</span>
-                <!-- Garis SVG fleksibel mengikuti lebar teks -->
-                <svg class="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-2.5 sm:h-3" viewBox="0 0 368 12" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3.17236 9.49995C97.6652 -1.50005 329.01 -3.50005 428.933 9.49995" stroke="#AC2D0D" stroke-width="6.3445" stroke-linecap="round"/>
-                </svg>
+
+        <div class="relative overflow-hidden rounded-3xl mb-10">
+            <div class="blob blob-a"></div>
+            <div class="blob blob-b"></div>
+            <div class="relative z-10 text-center pt-2 pb-2">
+                <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-[#f05d3a] bg-[#f05d3a]/10 border border-[#f05d3a]/30 rounded-full px-3 py-1 mb-4">
+                    🎨 Tes Gaya Warna Impianmu
+                </span>
+
+                <h2 class="text-3xl md:text-4xl lg:text-[48px] font-bold mb-1 leading-tight">Pilih Warna</h2>
+
+                <div class="relative inline-block text-3xl md:text-4xl lg:text-[48px] font-bold leading-tight">
+                    <span class="relative z-10">Yang Kamu Suka</span>
+                    <svg class="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-2.5 sm:h-3" viewBox="0 0 368 12" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.17236 9.49995C97.6652 -1.50005 329.01 -3.50005 428.933 9.49995" stroke="#AC2D0D" stroke-width="6.3445" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <p class="text-gray-400 text-sm md:text-base max-w-md mx-auto mt-4">
+                    Jawab beberapa pertanyaan singkat &amp; seru, lalu dapatkan rekomendasi warna dan gaya interior yang paling cocok untuk rumahmu.
+                </p>
+
+                <p id="errorPilihGambar" class="text-red-500 font-medium mt-4 hidden">
+                    ⚠️ Silakan pilih salah satu gambar warna terlebih dahulu!
+                </p>
             </div>
-            <p id="errorPilihGambar" class="text-red-500 font-medium mt-4 hidden">
-                ⚠️ Silakan pilih salah satu gambar warna terlebih dahulu!
-            </p>
         </div>
 
-        <!-- PERBAIKAN 2: Penambahan fungsi onclick dan ID pada setiap kartu gambar -->
+        <!-- Kartu Pilihan Gambar -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div id="card-earthy" onclick="selectImageOption('earthy')" class="image-card rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group">
-                <img src="gambar/earthy.jpg" alt="Earthy" class="w-full h-48 object-cover">
+            <div id="card-earthy" class="image-card relative rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group" onclick="selectImageOption('earthy')">
+                <div class="card-check absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#f05d3a] flex items-center justify-center opacity-0 scale-0 transition-all duration-300">
+                    <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <img src="gambar/earthy.jpg" alt="Earthy" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
                 <div class="p-4 bg-gray-600 group-hover:bg-[#f05d3a] transition-colors">
                     <h3 class="font-semibold text-lg">Earthy</h3>
                 </div>
             </div>
 
-            <div id="card-warm" onclick="selectImageOption('warm')" class="image-card rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group">
-                <img src="gambar/warm-elegant.jpg" alt="Warm Elegant" class="w-full h-48 object-cover">
+            <div id="card-warm" class="image-card relative rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group" onclick="selectImageOption('warm')">
+                <div class="card-check absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#f05d3a] flex items-center justify-center opacity-0 scale-0 transition-all duration-300">
+                    <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <img src="gambar/warm-elegant.jpg" alt="Warm Elegant" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
                 <div class="p-4 bg-gray-600 group-hover:bg-[#f05d3a] transition-colors">
                     <h3 class="font-semibold text-lg">Warm Elegant</h3>
                 </div>
             </div>
 
-            <div id="card-cool" onclick="selectImageOption('cool')" class="image-card rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group">
-                <img src="gambar/cool-minimalist.jpg" alt="Cool Minimalist" class="w-full h-48 object-cover">
+            <div id="card-cool" class="image-card relative rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group" onclick="selectImageOption('cool')">
+                <div class="card-check absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#f05d3a] flex items-center justify-center opacity-0 scale-0 transition-all duration-300">
+                    <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <img src="gambar/cool-minimalist.jpg" alt="Cool Minimalist" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
                 <div class="p-4 bg-gray-600 group-hover:bg-[#f05d3a] transition-colors">
                     <h3 class="font-semibold text-lg">Cool Minimalist</h3>
                 </div>
             </div>
         </div>
 
-        <!-- Pertanyaan Dropdown -->
-        <form id="formPertanyaanStep1">
-            <div class="pb-5">
-                <label class="block text-sm font-medium mb-2 leading-snug">Seberapa sering Anda akan repainting/memperbarui tampilan rumah?</label>
-                <select id="inputFrekuensi" required class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#f05d3a]">
-                    <option value="">Pilih Jawaban</option>
-                    <option value="Sewaktu ada rembesan">Sewaktu ada rembesan</option>
-                    <option value="Menjelang hari raya">Menjelang hari raya</option>
-                    <option value="5 tahun sekali">5 tahun sekali</option>
-                    <option value="10 tahun sekali">10 tahun sekali</option>
-                </select>
-            </div>
-            
-            <div class="pb-5">
-                <label class="block text-sm font-medium mb-2 leading-snug">Apa yang Anda khawatirkan saat melakukan repainting?</label>
-                <select id="inputKekhawatiran" required class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#f05d3a]">
-                    <option value="">Pilih Jawaban</option>
-                    <option value="Salah memilih warna">Salah memilih warna</option>
-                    <option value="Biaya terlalu besar">Biaya terlalu besar</option>
-                    <option value="Hasil tidak sesuai">Hasil tidak sesuai</option>
-                    <option value="Sulit mencari tenaga kerja">Sulit mencari tenaga kerja</option>
-                    <option value="Sulit menentukan konsep">Sulit menentukan konsep</option>
-                    <option value="Perawatan setelah selesai">Perawatan setelah selesai</option>
-                </select>
+        <!-- Pertanyaan Singkat (kartu pilihan, bukan dropdown) -->
+        <div id="step1ExtraQuestions" class="max-w-5xl w-full mx-auto">
+
+            <div class="bg-[#1c2331] rounded-2xl p-5 md:p-6 border border-gray-800 mb-5">
+                <div class="flex items-center mb-5">
+                    <div class="icon-box bg-[#f05d3a] rounded-xl mr-4">🖌️</div>
+                    <div>
+                        <h4 class="font-semibold text-base leading-snug">Seberapa sering Anda akan repainting/memperbarui tampilan rumah?</h4>
+                    </div>
+                </div>
+                <div id="groupFrekuensi" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
             </div>
 
-            <!-- PERBAIKAN 3: Penambahan onchange pada checkbox untuk memicu logika tombol -->
+            <div class="bg-[#1c2331] rounded-2xl p-5 md:p-6 border border-gray-800 mb-8">
+                <div class="flex items-center mb-5">
+                    <div class="icon-box bg-[#f05d3a] rounded-xl mr-4">😟</div>
+                    <div>
+                        <h4 class="font-semibold text-base leading-snug">Apa yang Anda khawatirkan saat melakukan repainting?</h4>
+                    </div>
+                </div>
+                <div id="groupKekhawatiran" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            </div>
+
+            <!-- Toggle Data Personal -->
             <div class="max-w-2xl w-full mx-auto border border-gray-700 bg-[#1c2331] p-5 rounded-xl flex items-center mb-8 shadow-lg">
                 <input type="checkbox" id="checkPersonalData" onchange="toggleActionButtons()" class="w-6 h-6 rounded bg-gray-300 border-transparent focus:ring-[#f05d3a] text-[#f05d3a] cursor-pointer" checked>
                 <div class="ml-4 cursor-pointer" onclick="document.getElementById('checkPersonalData').click()">
@@ -122,7 +273,7 @@
             <!-- Tombol Navigasi Dinamis -->
             <div id="btnIsiKuisionerContainer" class="flex justify-end max-w-5xl w-full mx-auto">
                 <button type="button" onclick="goToStep2()" class="bg-[#f05d3a] hover:bg-[#d94a2b] text-white px-6 py-2.5 rounded-lg font-medium flex items-center transition-colors">
-                    Isi Kuisioner 
+                    Mulai Kuisioner Seru
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                     </svg>
@@ -134,193 +285,43 @@
                     Simpan Jawaban
                 </button>
             </div>
-        </form>
+        </div>
     </main>
 
-    <!-- STEP 2: HALAMAN FORMULIR -->
+    <!-- STEP 2: HALAMAN KUISIONER (satu pertanyaan per layar, ala kuis) -->
     <main id="step2" class="w-full max-w-xl px-4 py-6 flex flex-col hidden transition-all duration-300">
-        <form id="formQuestionnaire" onsubmit="processQuestionnaire(event)">
-            
-            <!-- Section Data Personal -->
-            <section id="personalDataSection" class="bg-[#1c2331] rounded-2xl p-6 mb-6 border border-gray-800">
-                <div class="flex items-center mb-6">
-                    <div class="bg-[#f05d3a] p-2.5 rounded-xl mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="text-xl font-bold">Data Personal</h2>
-                        <p class="text-xs text-gray-400">Biodata Responden</p>
-                    </div>
-                </div>
+        <div class="mb-6">
+            <div class="flex justify-between items-center text-xs text-gray-400 mb-2">
+                <span id="quizProgressLabel">Langkah 1 dari 1</span>
+                <span id="quizProgressPercent" class="font-semibold text-[#f05d3a]">0%</span>
+            </div>
+            <div class="progress-track">
+                <div id="quizProgressFill" class="progress-fill" style="width:0%"></div>
+            </div>
+        </div>
 
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Nama</label>
-                        <input type="text" id="inputNama" placeholder="Jane Doe" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Nomor Telepon</label>
-                        <input type="tel" id="inputTelepon" placeholder="(+62) 123-4567" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Instagram</label>
-                        <input type="text" id="inputInstagram" placeholder="janedoe" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-1">Project Address</label>
-                        <textarea id="inputAlamat" rows="3" placeholder="123 Paintbrush Lane, Springfield" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a] resize-none" required></textarea>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Section Pertanyaan Kuisioner -->
-            <section class="bg-[#1c2331] rounded-2xl p-6 border border-gray-800 mb-6">
-                <div class="flex items-center mb-6">
-                    <div class="bg-[#f05d3a] p-2.5 rounded-xl mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="text-xl font-bold">Kuisioner</h2>
-                        <p class="text-xs text-gray-400">Data Kuisioner Responden</p>
-                    </div>
-                </div>
-
-                <div class="space-y-5">
-                    <div>
-                        <label class="block text-sm font-medium mb-2 leading-snug">Saat pulang ke rumah setelah hari yang melelahkan, suasana seperti apa yang paling Anda inginkan?</label>
-                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
-                            <option value="">Pilih Jawaban</option>
-                            <option value="style1,style2">Tenang dan menenangkan</option>
-                            <option value="style5">Cerah dan penuh semangat</option>
-                            <option value="style2">Hangat dan akrab</option>
-                            <option value="style4">Elegan dan berkelas</option>
-                            <option value="style3">Segar seperti berada di alam</option>
-                            <option value="style5">Kreatif dan penuh karakter</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2 leading-snug">Anda lebih menyukai ruangan yang...</label>
-                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
-                            <option value="">Pilih Jawaban</option>
-                            <option value="style1">Terlihat luas dan bersih</option>
-                            <option value="style2">Hangat dan nyaman</option>
-                            <option value="style4">Mewah</option>
-                            <option value="style1,style4">Modern</option>
-                            <option value="style3">Natural</option>
-                            <option value="style5">Berani tampil beda</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2 leading-snug">Ketika melihat sebuah ruangan, apa yang paling menarik perhatian Anda?</label>
-                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
-                            <option value="">Pilih Jawaban</option>
-                            <option value="style1">Warna dinding</option>
-                            <option value="style4">Pencahayaan</option>
-                            <option value="style2,style3">Furnitur</option>
-                            <option value="style5">Dekorasi</option>
-                            <option value="style1,style4">Keserasian keseluruhan</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2 leading-snug">Jika harus memilih satu kata untuk menggambarkan rumah impian Anda</label>
-                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
-                            <option value="">Pilih Jawaban</option>
-                            <option value="style1">Calm</option>
-                            <option value="style2">Cozy</option>
-                            <option value="style4">Elegant</option>
-                            <option value="style3">Fresh</option>
-                            <option value="style4">Luxury</option>
-                            <option value="style1">Simple</option>
-                            <option value="style5">Cheerful</option>
-                            <option value="style5">Artistic</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2 leading-snug">Anda lebih menyukai warna yang...</label>
-                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
-                            <option value="">Pilih Jawaban</option>
-                            <option value="style1">Terang</option>
-                            <option value="style2">Lembut</option>
-                            <option value="style4">Gelap</option>
-                            <option value="style1,style2">Netral</option>
-                            <option value="style3">Natural</option>
-                            <option value="style5">Berani</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2 leading-snug">Seberapa berani Anda mencoba warna baru?</label>
-                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
-                            <option value="">Pilih Jawaban</option>
-                            <option value="style5">Sangat berani</option>
-                            <option value="style5,style4">Cukup berani</option>
-                            <option value="style3,style2">Kadang-kadang</option>
-                            <option value="style1">Lebih nyaman dengan warna aman</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2 leading-snug">Furnitur rumah Anda didominasi oleh warna...</label>
-                        <select required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
-                            <option value="">Pilih Jawaban</option>
-                            <option value="style1">Putih</option>
-                            <option value="style2,style3">Kayu Natural</option>
-                            <option value="style4">Hitam</option>
-                            <option value="style1,style4">Abu-abu</option>
-                            <option value="style2,style4">Cokelat</option>
-                            <option value="style5">Beragam warna</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium mb-2 leading-snug">Layanan tambahan apa yang paling Anda harapkan ketika sedang mempercantik rumah?</label>
-                        <select id="inputLayanan" required class="q-select w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm text-gray-300 focus:outline-none focus:border-[#f05d3a]">
-                            <option value="">Pilih Jawaban</option>
-                            <option value="Konsultasi Warna">Konsultasi warna</option>
-                            <option value="Simulasi Desain">Simulasi desain</option>
-                            <option value="Rekomendasi Aplikator">Rekomendasi aplikator</option>
-                            <option value="Survei Lokasi">Survei lokasi</option>
-                            <option value="Estimasi Biaya">Estimasi biaya</option>
-                            <option value="Pengiriman Cepat">Pengiriman cepat</option>
-                        </select>
-                    </div>
-
-                </div>
-
-                <div class="mt-8">
-                    <button type="submit" class="w-full bg-[#f05d3a] hover:bg-[#d94a2b] text-white py-3 rounded-lg font-bold transition-colors">
-                        Lihat Hasil
-                    </button>
-                </div>
-            </section>
-        </form>
+        <div id="quizCardsContainer"></div>
     </main>
 
     <!-- STEP 3: HALAMAN HASIL KUESIONER -->
     <main id="step3" class="w-full max-w-xl px-4 py-6 flex flex-col hidden transition-all duration-300 space-y-5">
-        
+
         <!-- Banner Sukses -->
-        <div class="bg-[#1c2331] rounded-2xl p-8 border border-gray-800 text-center flex flex-col items-center">
-            <div class="w-16 h-16 bg-[#3a2c2e] rounded-full flex items-center justify-center mb-4">
-                <!-- Icon Celebration / Party Popper -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#f05d3a]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                </svg>
+        <div class="relative overflow-hidden bg-[#1c2331] rounded-2xl p-8 border border-gray-800 text-center flex flex-col items-center">
+            <div id="splatterLayer" class="splatter-layer"></div>
+            <div class="relative z-10 flex flex-col items-center">
+                <div class="w-16 h-16 bg-[#3a2c2e] rounded-full flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#f05d3a]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold mb-2">Kuesioner Selesai! 🎉</h2>
+                <p id="resMatchText" class="text-sm text-gray-400 max-w-xs">Berikut adalah profil warna impian untuk ruangan Anda.</p>
             </div>
-            <h2 class="text-xl font-bold mb-2">Kuesioner Selesai!</h2>
-            <p class="text-sm text-gray-400 max-w-xs">Berikut adalah profil warna impian untuk ruangan Anda.</p>
         </div>
 
         <!-- Profil Responden Card -->
-        <div class="bg-[#1c2331] rounded-2xl p-5 border border-gray-800 flex items-center space-x-4">
+        <div class="bg-[#1c2331] rounded-2xl p-5 border border-gray-800 flex items-center space-x-4 anim-fade-up" style="animation-delay:.05s">
             <div id="resAvatar" class="w-12 h-12 rounded-full bg-[#2a3447] flex items-center justify-center font-bold text-gray-300 text-lg">
                 JD
             </div>
@@ -331,43 +332,31 @@
         </div>
 
         <!-- Ringkasan Pilihan -->
-        <div class="space-y-2">
+        <div class="space-y-2 anim-fade-up" style="animation-delay:.12s">
             <h3 class="text-base font-semibold text-gray-200">Ringkasan Pilihan</h3>
-            <div class="bg-[#1c2331] rounded-2xl p-5 border border-gray-800 flex flex-col space-y-1">
-                <div class="flex items-center space-x-2 text-xs text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 73" />
-                    </svg>
-                    <span>Rekomendasi Style</span>
+            <div class="bg-[#1c2331] rounded-2xl p-5 border border-gray-800 flex items-center space-x-4">
+                <div id="resStyleIcon" class="icon-box bg-[#f05d3a]/15 rounded-xl text-2xl">🎨</div>
+                <div class="flex-1">
+                    <div class="flex items-center space-x-2 text-xs text-gray-400 mb-1">
+                        <span>Rekomendasi Style</span>
+                    </div>
+                    <p id="resStyleName" class="text-lg font-bold text-white">Calm &amp; Natural</p>
                 </div>
-                <p id="resStyleName" class="text-lg font-bold text-white">Calm & Natural</p>
+                <span id="resMatchBadge" class="text-xs font-bold text-[#f05d3a] bg-[#f05d3a]/10 border border-[#f05d3a]/30 rounded-full px-3 py-1">92% Match</span>
             </div>
         </div>
 
         <!-- Palet Warna Rekomendasi -->
-        <div class="space-y-2">
+        <div class="space-y-2 anim-fade-up" style="animation-delay:.19s">
             <h3 class="text-base font-semibold text-gray-200">Palet Warna Rekomendasi</h3>
             <div class="bg-[#1c2331] rounded-2xl p-6 border border-gray-800 space-y-6">
-                <!-- Color Blocks Injected via JS -->
                 <div id="colorContainer" class="flex h-24 rounded-xl overflow-hidden"></div>
-                <!-- Color List Injected via JS -->
                 <div id="colorList" class="space-y-3"></div>
             </div>
         </div>
 
-        <!-- Tips Desainer -->
-        <!-- <div class="bg-[#1c2331] rounded-2xl p-5 border border-gray-800 space-y-2">
-            <div class="flex items-center space-x-2 text-sm font-semibold text-gray-200">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
-                <span>Tips Desainer</span>
-            </div>
-            <p id="resTips" class="text-xs text-gray-400 leading-relaxed font-worksans"></p>
-        </div> -->
-
         <!-- Action Buttons -->
-        <div class="pt-2 space-y-3">
+        <div class="pt-2 space-y-3 anim-fade-up" style="animation-delay:.26s">
             <button onclick="saveFinalData()" class="w-full bg-[#f05d3a] hover:bg-[#d94a2b] text-white py-3.5 rounded-xl font-bold flex items-center justify-center space-x-2 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -375,12 +364,9 @@
                 <span>Simpan Jawaban</span>
             </button>
 
-            <!-- <button onclick="alert('Mengarahkan ke konsultasi desainer...')" class="w-full bg-transparent hover:bg-gray-800 text-gray-300 py-3 rounded-xl font-semibold flex items-center justify-center space-x-2 transition-colors border border-transparent">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                </svg>
-                <span>Konsultasi dengan Desainer</span>
-            </button> -->
+            <button onclick="restartQuiz()" class="w-full text-center text-xs text-gray-500 hover:text-gray-300 underline underline-offset-2 pt-1 transition-colors">
+                Ulangi Kuisioner dari Awal
+            </button>
         </div>
     </main>
 
@@ -407,84 +393,217 @@
                 styleName: "Eclectic & Expressive",
                 colors: [{name: "Sunset Orange", hex: "#FFB5A0"}, {name: "Dusty Rose", hex: "#DCAE96"}, {name: "Sunny Yellow", hex: "#F4D03F"}]
             }
-            // style6: {
-            //     styleName: "Modern Luxury",
-            //     colors: [{name: "Onyx Black", hex: "#0F0F0F"}, {name: "Champagne Gold", hex: "#D4AF37"}, {name: "Pearl White", hex: "#F8F9FA"}],
-            //     tips: "Aplikasikan 'Champagne Gold' secara subtil pada gagang pintu, dipadukan dengan 'Onyx Black' untuk kontras maksimal."
-            // }
         };
+
+        const styleIcons = { style1: "🏙️", style2: "☕", style3: "🌿", style4: "💎", style5: "🎨" };
+
+        // --- Data pertanyaan kuisioner (dipakai untuk render kartu satu-per-satu) ---
+        const quizQuestions = [
+            {
+                key: "q1", icon: "🏡",
+                label: "Saat pulang ke rumah setelah hari yang melelahkan, suasana seperti apa yang paling Anda inginkan?",
+                options: [
+                    { value: "style1,style2", label: "Tenang dan menenangkan", emoji: "🧘" },
+                    { value: "style5", label: "Cerah dan penuh semangat", emoji: "☀️" },
+                    { value: "style2", label: "Hangat dan akrab", emoji: "🔥" },
+                    { value: "style4", label: "Elegan dan berkelas", emoji: "🥂" },
+                    { value: "style3", label: "Segar seperti berada di alam", emoji: "🌿" },
+                    { value: "style5", label: "Kreatif dan penuh karakter", emoji: "🎭" }
+                ]
+            },
+            {
+                key: "q2", icon: "🛋️",
+                label: "Anda lebih menyukai ruangan yang...",
+                options: [
+                    { value: "style1", label: "Terlihat luas dan bersih", emoji: "🤍" },
+                    { value: "style2", label: "Hangat dan nyaman", emoji: "🛋️" },
+                    { value: "style4", label: "Mewah", emoji: "💎" },
+                    { value: "style1,style4", label: "Modern", emoji: "🏙️" },
+                    { value: "style3", label: "Natural", emoji: "🌱" },
+                    { value: "style5", label: "Berani tampil beda", emoji: "⚡" }
+                ]
+            },
+            {
+                key: "q3", icon: "👀",
+                label: "Ketika melihat sebuah ruangan, apa yang paling menarik perhatian Anda?",
+                options: [
+                    { value: "style1", label: "Warna dinding", emoji: "🎨" },
+                    { value: "style4", label: "Pencahayaan", emoji: "💡" },
+                    { value: "style2,style3", label: "Furnitur", emoji: "🪑" },
+                    { value: "style5", label: "Dekorasi", emoji: "🖼️" },
+                    { value: "style1,style4", label: "Keserasian keseluruhan", emoji: "✨" }
+                ]
+            },
+            {
+                key: "q4", icon: "💭",
+                label: "Jika harus memilih satu kata untuk menggambarkan rumah impian Anda",
+                options: [
+                    { value: "style1", label: "Calm", emoji: "😌" },
+                    { value: "style2", label: "Cozy", emoji: "☕" },
+                    { value: "style4", label: "Elegant", emoji: "🥂" },
+                    { value: "style3", label: "Fresh", emoji: "🌿" },
+                    { value: "style4", label: "Luxury", emoji: "👑" },
+                    { value: "style1", label: "Simple", emoji: "⚪" },
+                    { value: "style5", label: "Cheerful", emoji: "🌈" },
+                    { value: "style5", label: "Artistic", emoji: "🎭" }
+                ]
+            },
+            {
+                key: "q5", icon: "🎨",
+                label: "Anda lebih menyukai warna yang...",
+                options: [
+                    { value: "style1", label: "Terang", emoji: "☀️" },
+                    { value: "style2", label: "Lembut", emoji: "🕊️" },
+                    { value: "style4", label: "Gelap", emoji: "🌑" },
+                    { value: "style1,style2", label: "Netral", emoji: "⚪" },
+                    { value: "style3", label: "Natural", emoji: "🌿" },
+                    { value: "style5", label: "Berani", emoji: "🔥" }
+                ]
+            },
+            {
+                key: "q6", icon: "🎲",
+                label: "Seberapa berani Anda mencoba warna baru?",
+                options: [
+                    { value: "style5", label: "Sangat berani", emoji: "🚀" },
+                    { value: "style5,style4", label: "Cukup berani", emoji: "👍" },
+                    { value: "style3,style2", label: "Kadang-kadang", emoji: "🤏" },
+                    { value: "style1", label: "Lebih nyaman dengan warna aman", emoji: "🛡️" }
+                ]
+            },
+            {
+                key: "q7", icon: "🪑",
+                label: "Furnitur rumah Anda didominasi oleh warna...",
+                options: [
+                    { value: "style1", label: "Putih", emoji: "🤍" },
+                    { value: "style2,style3", label: "Kayu Natural", emoji: "🪵" },
+                    { value: "style4", label: "Hitam", emoji: "⚫" },
+                    { value: "style1,style4", label: "Abu-abu", emoji: "⬜" },
+                    { value: "style2,style4", label: "Cokelat", emoji: "🟤" },
+                    { value: "style5", label: "Beragam warna", emoji: "🌈" }
+                ]
+            }
+        ];
+
+        const layananQuestion = {
+            key: "layanan", icon: "🛠️",
+            label: "Layanan tambahan apa yang paling Anda harapkan ketika sedang mempercantik rumah?",
+            options: [
+                { value: "Konsultasi Warna", label: "Konsultasi warna", emoji: "💬" },
+                { value: "Simulasi Desain", label: "Simulasi desain", emoji: "🖥️" },
+                { value: "Rekomendasi Aplikator", label: "Rekomendasi aplikator", emoji: "👷" },
+                { value: "Survei Lokasi", label: "Survei lokasi", emoji: "📍" },
+                { value: "Estimasi Biaya", label: "Estimasi biaya", emoji: "🧾" },
+                { value: "Pengiriman Cepat", label: "Pengiriman cepat", emoji: "🚚" }
+            ]
+        };
+
+        const frekuensiOptions = [
+            { value: "Sewaktu ada rembesan", label: "Sewaktu ada rembesan", emoji: "💧" },
+            { value: "Menjelang hari raya", label: "Menjelang hari raya", emoji: "🎉" },
+            { value: "5 tahun sekali", label: "5 tahun sekali", emoji: "🗓️" },
+            { value: "10 tahun sekali", label: "10 tahun sekali", emoji: "📆" }
+        ];
+
+        const kekhawatiranOptions = [
+            { value: "Salah memilih warna", label: "Salah memilih warna", emoji: "🎨" },
+            { value: "Biaya terlalu besar", label: "Biaya terlalu besar", emoji: "💸" },
+            { value: "Hasil tidak sesuai", label: "Hasil tidak sesuai", emoji: "😕" },
+            { value: "Sulit mencari tenaga kerja", label: "Sulit mencari tenaga kerja", emoji: "👷" },
+            { value: "Sulit menentukan konsep", label: "Sulit menentukan konsep", emoji: "🤔" },
+            { value: "Perawatan setelah selesai", label: "Perawatan setelah selesai", emoji: "🧽" }
+        ];
+
+        // --- State ---
         let currentStep = 1;
+        let selectedImageStyle = "";
+        let selectedFrekuensi = "";
+        let selectedKekhawatiran = "";
+        let personalData = { nama: "", telepon: "", instagram: "", alamat: "" };
+        let quizAnswers = {};
+        let activePages = [];
+        let currentPageIndex = 0;
+        let totalXP = 0;
 
         const step1 = document.getElementById('step1');
         const step2 = document.getElementById('step2');
         const step3 = document.getElementById('step3');
         const btnBack = document.getElementById('btnBack');
         const navTitle = document.getElementById('navTitle');
-        const personalDataSection = document.getElementById('personalDataSection');
         const checkPersonalData = document.getElementById('checkPersonalData');
+        const xpBadge = document.getElementById('xpBadge');
+        const xpValue = document.getElementById('xpValue');
 
-        let selectedImageStyle = "";
+        // --- 0. RENDER PILIHAN CEPAT DI STEP 1 (kartu, bukan dropdown) ---
+        function renderQuickOptions(containerId, options, group) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = options.map(opt => `
+                <button type="button" class="opt-btn" data-group="${group}" onclick='selectQuickOption(${JSON.stringify(group)}, ${JSON.stringify(opt.value)}, this)'>
+                    <span class="opt-emoji">${opt.emoji}</span>
+                    <span class="opt-label">${opt.label}</span>
+                    <span class="opt-check">✓</span>
+                </button>
+            `).join('');
+        }
+        renderQuickOptions('groupFrekuensi', frekuensiOptions, 'frekuensi');
+        renderQuickOptions('groupKekhawatiran', kekhawatiranOptions, 'kekhawatiran');
 
+        function selectQuickOption(group, val, btnEl) {
+            if (group === 'frekuensi') selectedFrekuensi = val;
+            if (group === 'kekhawatiran') selectedKekhawatiran = val;
+            document.querySelectorAll('.opt-btn[data-group="' + group + '"]').forEach(b => b.classList.remove('selected'));
+            btnEl.classList.add('selected');
+            document.getElementById('errorPilihGambar').classList.add('hidden');
+        }
+
+        // --- 1. PEMILIHAN GAMBAR ---
         function selectImageOption(styleId) {
-            // 1. Simpan data pilihan pengguna
             selectedImageStyle = styleId;
-            
-            // 2. Reset semua kartu ke kondisi awal (Hapus ring & kembalikan warna bawah ke abu-abu)
-            const allCards = document.querySelectorAll('.image-card');
-            allCards.forEach(card => {
-                // Hapus garis seleksi
+
+            document.querySelectorAll('.image-card').forEach(card => {
                 card.classList.remove('ring-4', 'ring-[#f05d3a]');
-                
-                // Kembalikan background kotak teks ke abu-abu
                 const textBox = card.querySelector('div.p-4');
                 if (textBox) {
                     textBox.classList.remove('bg-[#f05d3a]');
                     textBox.classList.add('bg-gray-600');
                 }
+                const check = card.querySelector('.card-check');
+                if (check) {
+                    check.classList.remove('opacity-100', 'scale-100');
+                    check.classList.add('opacity-0', 'scale-0');
+                }
             });
 
-            // 3. Tambahkan status 'terpilih' secara penuh pada kartu yang diklik
             const selectedCard = document.getElementById('card-' + styleId);
             if (selectedCard) {
-                // Tambahkan garis seleksi
                 selectedCard.classList.add('ring-4', 'ring-[#f05d3a]');
-                
-                // Kunci background kotak teks menjadi oranye
                 const selectedTextBox = selectedCard.querySelector('div.p-4');
                 if (selectedTextBox) {
                     selectedTextBox.classList.remove('bg-gray-600');
                     selectedTextBox.classList.add('bg-[#f05d3a]');
                 }
+                const check = selectedCard.querySelector('.card-check');
+                if (check) {
+                    check.classList.remove('opacity-0', 'scale-0');
+                    check.classList.add('opacity-100', 'scale-100');
+                }
             }
+            document.getElementById('errorPilihGambar').classList.add('hidden');
         }
 
-        // Fungsi untuk mengubah tombol berdasarkan status checkbox
+        // --- 2. TOMBOL DINAMIS SESUAI CHECKBOX ---
         function toggleActionButtons() {
-            const isChecked = document.getElementById('checkPersonalData').checked;
+            const isChecked = checkPersonalData.checked;
             const btnIsi = document.getElementById('btnIsiKuisionerContainer');
             const btnSimpan = document.getElementById('btnSimpanJawabanContainer');
 
             if (isChecked) {
-                // Jika dicentang: Tampilkan tombol 'Isi Kuisioner' di kanan, Sembunyikan 'Simpan'
                 btnIsi.classList.remove('hidden');
                 btnSimpan.classList.add('hidden');
             } else {
-                // Jika TIDAK dicentang: Tampilkan tombol 'Simpan Jawaban' di tengah, Sembunyikan 'Isi Kuisioner'
                 btnIsi.classList.add('hidden');
                 btnSimpan.classList.remove('hidden');
             }
         }
-
-        // Fungsi aksi jika pengguna memilih 'Simpan Jawaban' langsung di Step 1
-        // function simpanJawabanLangsung() {
-        //     if (!selectedImageStyle) {
-        //         alert("Silakan pilih salah satu gambar warna yang Anda suka terlebih dahulu!");
-        //         return;
-        //     }
-            
-        //     alert("Jawaban Anda berhasil disimpan! Style terpilih: " + selectedImageStyle);
-        //     // Masukkan logika eksekusi Anda selanjutnya di sini (misal: kirim ke database atau render hasil).
-        // }
 
         function goToStep1() {
             currentStep = 1;
@@ -493,138 +612,213 @@
             step3.classList.add('hidden');
             btnBack.classList.add('hidden');
             navTitle.innerText = "Kuisioner Warna Impian";
+            xpBadge.style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        // function goToStep2() {
-        //     currentStep = 2;
-        //     step1.classList.add('hidden');
-        //     step2.classList.remove('hidden');
-        //     step3.classList.add('hidden');
-        //     btnBack.classList.remove('hidden');
-        //     navTitle.innerText = "Kuisioner Warna Impian";
-
-        //     // Tampilkan/Sembunyikan form Data Personal sesuai checkbox di Step 1
-        //     if (checkPersonalData.checked) {
-        //         personalDataSection.style.display = 'block';
-        //     } else {
-        //         personalDataSection.style.display = 'none';
-        //     }
-        //     window.scrollTo({ top: 0, behavior: 'smooth' });
-        // }
 
         function goToStep2() {
             const errorText = document.getElementById('errorPilihGambar');
 
-            // 1. Cek apakah gambar belum dipilih
-            if (!selectedImageStyle || selectedImageStyle === "") {
-                // Tampilkan pesan error berwarna merah
+            if (!selectedImageStyle) {
+                errorText.innerText = "⚠️ Silakan pilih salah satu gambar warna terlebih dahulu!";
                 errorText.classList.remove('hidden');
-                
-                // Opsional: Gulir layar (scroll) kembali ke atas agar pengguna melihat pesan error
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-                return; // Hentikan eksekusi! Jangan lanjut ke halaman berikutnya
+                return;
             }
 
-            // 2. Jika sudah memilih gambar, sembunyikan error (berjaga-jaga jika sebelumnya muncul)
+            if (!selectedFrekuensi || !selectedKekhawatiran) {
+                errorText.innerText = "⚠️ Lengkapi dulu 2 pertanyaan di bawah sebelum lanjut!";
+                errorText.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
             errorText.classList.add('hidden');
-            // 3. Lanjutkan eksekusi ke Step 2
-            console.log("Gambar sudah dipilih: " + selectedImageStyle);
+            enterStep2();
+        }
 
-            const formPertanyaan = document.getElementById('formPertanyaanStep1');
-            // Mengecek form valid atau tidak, sekaligus memunculkan peringatan jika tidak valid
-            if (!formPertanyaan.reportValidity()) {
-                return; // Hentikan eksekusi, biarkan pengguna mengisi dropdown
-            }
-
+        function enterStep2() {
             currentStep = 2;
+            activePages = buildActivePages();
+            currentPageIndex = 0;
+            quizAnswers = {};
+            totalXP = 10; // poin awal dari pertanyaan cepat di step 1
+            updateXP();
+
             step1.classList.add('hidden');
             step2.classList.remove('hidden');
             step3.classList.add('hidden');
             btnBack.classList.remove('hidden');
             navTitle.innerText = "Kuisioner Warna Impian";
 
-            if (checkPersonalData.checked) {
-                personalDataSection.style.display = 'block';
-            } else {
-                personalDataSection.style.display = 'none';
+            renderQuizPage();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function buildActivePages() {
+            const pages = [];
+            if (checkPersonalData.checked) pages.push({ type: 'personal' });
+            quizQuestions.forEach(q => pages.push({ type: 'question', ...q }));
+            pages.push({ type: 'question', ...layananQuestion });
+            return pages;
+        }
+
+        function updateXP() {
+            xpValue.innerText = totalXP;
+            xpBadge.style.display = 'flex';
+        }
+
+        // --- 3. RENDER SATU HALAMAN KUIS PADA SUATU WAKTU ---
+        function renderQuizPage() {
+            const page = activePages[currentPageIndex];
+            const total = activePages.length;
+            const percent = Math.round((currentPageIndex / total) * 100);
+
+            document.getElementById('quizProgressLabel').innerText = `Langkah ${currentPageIndex + 1} dari ${total}`;
+            document.getElementById('quizProgressPercent').innerText = percent + '%';
+            document.getElementById('quizProgressFill').style.width = percent + '%';
+
+            const container = document.getElementById('quizCardsContainer');
+            const html = page.type === 'personal' ? personalPageTemplate() : questionPageTemplate(page);
+            container.innerHTML = `<div class="quiz-page anim-slide-in">${html}</div>`;
+        }
+
+        function personalPageTemplate() {
+            return `
+                <section class="bg-[#1c2331] rounded-2xl p-6 border border-gray-800">
+                    <div class="flex items-center mb-6">
+                        <div class="icon-box bg-[#f05d3a] rounded-xl mr-4">👤</div>
+                        <div>
+                            <h2 class="text-xl font-bold">Data Personal</h2>
+                            <p class="text-xs text-gray-400">Biodata Responden</p>
+                        </div>
+                    </div>
+                    <form id="personalPageForm" onsubmit="submitPersonalPage(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Nama</label>
+                            <input type="text" id="inputNama" placeholder="Jane Doe" value="${personalData.nama}" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Nomor Telepon</label>
+                            <input type="tel" id="inputTelepon" placeholder="(+62) 123-4567" value="${personalData.telepon}" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Instagram</label>
+                            <input type="text" id="inputInstagram" placeholder="janedoe" value="${personalData.instagram}" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Project Address</label>
+                            <textarea id="inputAlamat" rows="3" placeholder="123 Paintbrush Lane, Springfield" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a] resize-none" required>${personalData.alamat}</textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-[#f05d3a] hover:bg-[#d94a2b] text-white py-3 rounded-lg font-bold transition-colors flex items-center justify-center gap-2">
+                            Lanjut ke Kuisioner
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </form>
+                </section>
+            `;
+        }
+
+        function questionPageTemplate(page) {
+            const isLast = page.key === 'layanan';
+            const optsHtml = page.options.map(opt => {
+                const isSelected = quizAnswers[page.key] === opt.value;
+                return `
+                    <button type="button" class="opt-btn${isSelected ? ' selected' : ''}" onclick='handleAnswer(${JSON.stringify(page.key)}, ${JSON.stringify(opt.value)}, this, ${isLast})'>
+                        <span class="opt-emoji">${opt.emoji}</span>
+                        <span class="opt-label">${opt.label}</span>
+                        <span class="opt-check">✓</span>
+                    </button>
+                `;
+            }).join('');
+
+            return `
+                <section class="bg-[#1c2331] rounded-2xl p-6 border border-gray-800">
+                    <div class="flex items-center mb-6">
+                        <div class="icon-box bg-[#f05d3a] rounded-xl mr-4">${page.icon}</div>
+                        <div>
+                            <h2 class="text-lg font-bold leading-snug">${page.label}</h2>
+                            <p class="text-xs text-gray-400 mt-1">Pilih salah satu jawaban</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">${optsHtml}</div>
+                </section>
+            `;
+        }
+
+        function submitPersonalPage(e) {
+            e.preventDefault();
+            const form = document.getElementById('personalPageForm');
+            if (!form.reportValidity()) return;
+
+            personalData.nama = document.getElementById('inputNama').value.trim();
+            personalData.telepon = document.getElementById('inputTelepon').value.trim();
+            personalData.instagram = document.getElementById('inputInstagram').value.trim();
+            personalData.alamat = document.getElementById('inputAlamat').value.trim();
+
+            totalXP += 20;
+            updateXP();
+            currentPageIndex++;
+            renderQuizPage();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleAnswer(key, value, btnEl, isLast) {
+            const alreadyAnswered = quizAnswers[key] !== undefined;
+            quizAnswers[key] = value;
+            if (!alreadyAnswered) {
+                totalXP += 10;
+                updateXP();
+            }
+
+            btnEl.parentElement.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+            btnEl.classList.add('selected');
+
+            setTimeout(() => {
+                if (isLast) {
+                    finalizeQuiz();
+                } else {
+                    currentPageIndex++;
+                    renderQuizPage();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }, 320);
+        }
+
+        function handleBack() {
+            if (currentStep === 3) {
+                currentStep = 2;
+                step3.classList.add('hidden');
+                step2.classList.remove('hidden');
+                navTitle.innerText = "Kuisioner Warna Impian";
+                currentPageIndex = Math.max(activePages.length - 1, 0);
+                renderQuizPage();
+            } else if (currentStep === 2) {
+                if (currentPageIndex > 0) {
+                    currentPageIndex--;
+                    renderQuizPage();
+                } else {
+                    goToStep1();
+                }
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // function goToStep3(e) {
-        //     if (e) e.preventDefault();
-        //     currentStep = 3;
-        //     step1.classList.add('hidden');
-        //     step2.classList.add('hidden');
-        //     step3.classList.remove('hidden');
-        //     btnBack.classList.remove('hidden');
-        //     navTitle.innerText = "Hasil Kuesioner";
-
-        //     // Render nama & inisial responden secara dinamis
-        //     const inputNama = document.getElementById('inputNama').value.trim();
-        //     const resNameEl = document.getElementById('resName');
-        //     const resAvatarEl = document.getElementById('resAvatar');
-
-        //     if (checkPersonalData.checked && inputNama !== "") {
-        //         resNameEl.innerText = inputNama;
-        //         // Ambil inisial 2 kata pertama
-        //         const initials = inputNama.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-        //         resAvatarEl.innerText = initials || "JD";
-        //     } else {
-        //         resNameEl.innerText = "Anonim";
-        //         resAvatarEl.innerText = "AN";
-        //     }
-
-        //     window.scrollTo({ top: 0, behavior: 'smooth' });
-        // }
-
-        function handleBack() {
-            if (currentStep === 3) {
-                goToStep2();
-            } else if (currentStep === 2) {
-                goToStep1();
-            }
-        }
-
-        // document.getElementById('formDataPersonal').addEventListener('submit', function(event) {
-        //     // Mencegah form untuk reload halaman secara default
-        //     event.preventDefault(); 
-            
-        //     // Mengecek apakah semua input yang memiliki atribut 'required' sudah diisi
-        //     if (!this.checkValidity()) {
-        //         return; 
-        //     }
-
-        //     // Jika sudah valid, lanjutkan proses ke halaman hasil
-        //     tampilkanHalamanHasil(); 
-        // });
-
-        function tampilkanHalamanHasil() {
-            console.log("Data lengkap. Melanjutkan ke halaman hasil...");
-        }
-
-        // --- 3. ALGORITMA PERHITUNGAN HASIL KUESIONER ---
-        function processQuestionnaire(e) {
-            e.preventDefault(); // Mencegah reload halaman
-            
-            // Inisialisasi poin
+        // --- 4. ALGORITMA PERHITUNGAN HASIL KUESIONER ---
+        function finalizeQuiz() {
             const scores = { style1: 0, style2: 0, style3: 0, style4: 0, style5: 0, style6: 0 };
-            const selectElements = document.querySelectorAll('.q-select');
-            
-            // Hitung poin dari setiap jawaban dropdown
-            selectElements.forEach(select => {
-                const answerValue = select.value;
-                if(answerValue) {
-                    const stylesToReward = answerValue.split(','); // Pecah value (misal: "style1,style5")
-                    stylesToReward.forEach(style => {
-                        if(scores[style] !== undefined) scores[style] += 1;
-                    });
-                }
+
+            Object.keys(quizAnswers).forEach(key => {
+                if (key === 'layanan') return;
+                const val = quizAnswers[key];
+                if (!val) return;
+                val.split(',').forEach(style => {
+                    if (scores[style] !== undefined) scores[style] += 1;
+                });
             });
 
-            // Tentukan pemenang (skor tertinggi)
             let winningStyle = Object.keys(scores)[0];
             let maxScore = scores[winningStyle];
             for (const style in scores) {
@@ -634,53 +828,51 @@
                 }
             }
 
-            renderResult(resultDatabase[winningStyle]);
+            const totalPoints = Object.values(scores).reduce((a, b) => a + b, 0);
+            const matchPercent = totalPoints > 0 ? Math.round((maxScore / totalPoints) * 100) : 0;
+
+            renderResult(resultDatabase[winningStyle], matchPercent, winningStyle);
         }
 
-        // --- 4. MERENDER DATA KE HALAMAN 3 ---
-        function renderResult(resultData) {
+        // --- 5. RENDER HALAMAN HASIL ---
+        function renderResult(resultData, matchPercent, winningStyle) {
             currentStep = 3;
             step1.classList.add('hidden'); step2.classList.add('hidden'); step3.classList.remove('hidden');
             btnBack.classList.remove('hidden');
             navTitle.innerText = "Hasil Kuesioner";
 
-            // 1. Profil Biodata
-            const inputNama = document.getElementById('inputNama').value.trim();
             const resNameEl = document.getElementById('resName');
             const resAvatarEl = document.getElementById('resAvatar');
 
-            if (checkPersonalData.checked && inputNama !== "") {
-                resNameEl.innerText = inputNama;
-                const initials = inputNama.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            if (checkPersonalData.checked && personalData.nama !== "") {
+                resNameEl.innerText = personalData.nama;
+                const initials = personalData.nama.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
                 resAvatarEl.innerText = initials || "JD";
             } else {
                 resNameEl.innerText = "Anonim";
                 resAvatarEl.innerText = "AN";
             }
 
-            // 2. Data Style & Tips
             document.getElementById('resStyleName').innerText = resultData.styleName;
-            // document.getElementById('resTips').innerText = resultData.tips;
+            document.getElementById('resStyleIcon').innerText = styleIcons[winningStyle] || "🎨";
+            document.getElementById('resMatchBadge').innerText = matchPercent + "% Match";
+            document.getElementById('resMatchText').innerText = `Cocok ${matchPercent}% dengan gaya "${resultData.styleName}". Ini palet warna impian untuk ruanganmu.`;
 
-            // 3. Injeksi Elemen Warna Secara Dinamis
+            // Palet warna (animasi tumbuh dari 0%)
             const colorContainer = document.getElementById('colorContainer');
             const colorList = document.getElementById('colorList');
             colorContainer.innerHTML = '';
             colorList.innerHTML = '';
 
-            // Buat array persentase lebar: warna 1 (60%), warna 2 (30%), warna 3 (10%)
             const widths = ['60%', '30%', '10%'];
 
             resultData.colors.forEach((c, index) => {
-                // Gunakan lebar sesuai urutan indeksnya (default ke 33.3% jika data warna lebih dari 3)
-                const currentWidth = widths[index] || '33.3%';
+                const targetWidth = widths[index] || '33.3%';
 
-                // Render Kotak Palet Atas dengan proporsi 60%, 30%, 10%
                 colorContainer.innerHTML += `
-                    <div style="width: ${currentWidth}; background-color: ${c.hex};" class="h-full transition-all"></div>
+                    <div data-target="${targetWidth}" style="width:0%; background-color: ${c.hex};" class="h-full transition-all duration-700 ease-out"></div>
                 `;
 
-                // Render Daftar Keterangan Warna (Tetap sama)
                 colorList.innerHTML += `
                     <div class="flex items-center justify-between text-sm">
                         <div class="flex items-center space-x-3">
@@ -692,19 +884,66 @@
                 `;
             });
 
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    colorContainer.querySelectorAll('[data-target]').forEach(el => {
+                        el.style.width = el.dataset.target;
+                    });
+                });
+            });
+
+            spawnSplatter(resultData.colors);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybM_Awj792Xy4d9X-UzPXO2FVBJN62djn5l90L4aLCAyv1d6qmuVfoVPFB2UCEV7YJrg/exec";
+        function spawnSplatter(colors) {
+            const layer = document.getElementById('splatterLayer');
+            layer.innerHTML = '';
+            const hexes = colors.map(c => c.hex);
+            const count = 14;
+            for (let i = 0; i < count; i++) {
+                const dot = document.createElement('span');
+                const size = 6 + Math.random() * 16;
+                dot.className = 'splatter-dot';
+                dot.style.width = size + 'px';
+                dot.style.height = size + 'px';
+                dot.style.left = Math.random() * 100 + '%';
+                dot.style.top = Math.random() * 100 + '%';
+                dot.style.background = hexes[i % hexes.length];
+                dot.style.animationDelay = (Math.random() * 0.4) + 's';
+                layer.appendChild(dot);
+            }
+        }
 
-        // 2. Fungsi Utama Pengiriman Data ke Google Sheet
+        function restartQuiz() {
+            selectedImageStyle = "";
+            selectedFrekuensi = "";
+            selectedKekhawatiran = "";
+            quizAnswers = {};
+            personalData = { nama: "", telepon: "", instagram: "", alamat: "" };
+            totalXP = 0;
+
+            document.querySelectorAll('.image-card').forEach(card => {
+                card.classList.remove('ring-4', 'ring-[#f05d3a]');
+                const textBox = card.querySelector('div.p-4');
+                if (textBox) { textBox.classList.remove('bg-[#f05d3a]'); textBox.classList.add('bg-gray-600'); }
+                const check = card.querySelector('.card-check');
+                if (check) { check.classList.remove('opacity-100', 'scale-100'); check.classList.add('opacity-0', 'scale-0'); }
+            });
+            document.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+
+            goToStep1();
+        }
+
+        // --- 6. PENGIRIMAN DATA KE GOOGLE SHEET ---
+        const GOOGLE_SCRIPT_URL = "sensor";
+
         function sendDataToGoogleSheet(dataPayload) {
-            // Tampilkan penanda proses loading jika diperlukan
             console.log("Mengirim data...", dataPayload);
 
             fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Menghindari kendala CORS dari Google Script
+                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'text/plain'
                 },
@@ -719,28 +958,24 @@
             });
         }
 
-        // 3. Fungsi Pengumpulan Data Saat Tombol 'Simpan Jawaban' Diklik (Di Step 1 atau Step 3)
         function collectAndSaveData(hasilStyleNama = "-") {
-            const isPersonalChecked = document.getElementById('checkPersonalData').checked;
+            const isPersonalChecked = checkPersonalData.checked;
 
-            // Ambil data dari elemen form HTML
             const payload = {
-                nama: isPersonalChecked ? document.getElementById('inputNama').value : "Anonim",
-                telepon: isPersonalChecked ? document.getElementById('inputTelepon').value : "-",
-                instagram: isPersonalChecked ? document.getElementById('inputInstagram').value : "-",
-                alamat: isPersonalChecked ? document.getElementById('inputAlamat').value : "-",
-                pilihanGambar: selectedImageStyle || "-", // Dari variabel pemilihan gambar
-                frekuensiRepainting: document.getElementById('inputFrekuensi')?.value || "-",
-                kekhawatiran: document.getElementById('inputKekhawatiran')?.value || "-",
-                layanan: document.getElementById('inputLayanan')?.value || "-",
+                nama: isPersonalChecked ? (personalData.nama || "-") : "Anonim",
+                telepon: isPersonalChecked ? (personalData.telepon || "-") : "-",
+                instagram: isPersonalChecked ? (personalData.instagram || "-") : "-",
+                alamat: isPersonalChecked ? (personalData.alamat || "-") : "-",
+                pilihanGambar: selectedImageStyle || "-",
+                frekuensiRepainting: selectedFrekuensi || "-",
+                kekhawatiran: selectedKekhawatiran || "-",
+                layanan: quizAnswers.layanan || "-",
                 hasilStyle: hasilStyleNama
             };
 
-            // Kirim objek data ke Google Sheet
             sendDataToGoogleSheet(payload);
         }
 
-        // 4. Update fungsi Simpan Jawaban Langsung (Jika user tidak centang data personal di Step 1)
         function simpanJawabanLangsung() {
             if (!selectedImageStyle) {
                 alert("Silakan pilih salah satu gambar terlebih dahulu!");
@@ -749,7 +984,6 @@
             collectAndSaveData("Tanpa Kuesioner (Hanya Pilihan Gambar)");
         }
 
-        // 5. Update fungsi simpan akhir di Step 3 (Hasil Kuesioner)
         function saveFinalData() {
             const styleRes = document.getElementById('resStyleName').innerText;
             collectAndSaveData(styleRes);
