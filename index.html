@@ -169,11 +169,11 @@
     <!-- STEP 1: HALAMAN PEMILIHAN WARNA -->
     <main id="step1" class="w-full max-w-5xl px-4 py-8 flex flex-col transition-all duration-300">
 
-        <div class="relative overflow-hidden rounded-3xl mb-10">
+        <div class="relative overflow-hidden rounded-3xl mb-10 p-8">
             <div class="blob blob-a"></div>
             <div class="blob blob-b"></div>
             <div class="relative z-10 text-center pt-2 pb-2">
-                
+
                 <h2 class="text-3xl md:text-4xl lg:text-[48px] font-bold mb-1 leading-tight">Pilih Warna</h2>
 
                 <div class="relative inline-block text-3xl md:text-4xl lg:text-[48px] font-bold leading-tight">
@@ -465,7 +465,7 @@
                 label: "Furnitur rumah Anda didominasi oleh warna...",
                 options: [
                     { value: "style1", label: "Putih", emoji: "🤍" },
-                    { value: "style2,style3", label: "Kayu Natural", emoji: "🪵" },
+                    { value: "style2,style3", label: "Kayu Natural", emoji: "🚪" },
                     { value: "style4", label: "Hitam", emoji: "⚫" },
                     { value: "style1,style4", label: "Abu-abu", emoji: "⬜" },
                     { value: "style2,style4", label: "Cokelat", emoji: "🟤" },
@@ -686,11 +686,11 @@
                     <form id="personalPageForm" onsubmit="submitPersonalPage(event)" class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium mb-1">Nama</label>
-                            <input type="text" id="inputNama" placeholder="Jane Doe" value="${personalData.nama}" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
+                            <input type="text" id="inputNama" minlength="3" placeholder="Jane Doe" value="${personalData.nama}" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Nomor Telepon</label>
-                            <input type="tel" id="inputTelepon" placeholder="(+62) 123-4567" value="${personalData.telepon}" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
+                            <input type="tel" id="inputTelepon" minlength="10" maxlength="13" placeholder="(+62) 123-4567" value="${personalData.telepon}" class="w-full bg-[#121824] border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#f05d3a]" required>
                         </div>
                         <div>
                             <label class="block text-sm font-medium mb-1">Instagram</label>
@@ -741,6 +741,12 @@
         function submitPersonalPage(e) {
             e.preventDefault();
             const form = document.getElementById('personalPageForm');
+            const telepon = document.getElementById('inputTelepon').value.trim();
+            if (!telepon.startsWith('08') && !telepon.startsWith('628')) {
+                alert("Nomor telepon harus diawali dengan '08' atau '628'!");
+                inputTelepon.focus();
+                return;
+            }
             if (!form.reportValidity()) return;
 
             personalData.nama = document.getElementById('inputNama').value.trim();
