@@ -1,5 +1,8 @@
+
+
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +12,8 @@
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         body {
             background-color: #121824;
@@ -38,13 +42,15 @@
             border: 1px solid #2a3447;
             overflow: visible;
         }
+
         .progress-fill {
             position: relative;
             height: 100%;
             border-radius: 999px;
             background: linear-gradient(90deg, #AC2D0D, #f05d3a);
-            transition: width .45s cubic-bezier(.4,0,.2,1);
+            transition: width .45s cubic-bezier(.4, 0, .2, 1);
         }
+
         .progress-fill::after {
             content: '';
             position: absolute;
@@ -55,7 +61,7 @@
             border-radius: 50% 50% 50% 0;
             background: #f05d3a;
             transform: translateY(-50%) rotate(45deg);
-            box-shadow: 0 0 8px rgba(240,93,58,.65);
+            box-shadow: 0 0 8px rgba(240, 93, 58, .65);
         }
 
         /* ---------- Choice buttons ---------- */
@@ -74,75 +80,190 @@
             cursor: pointer;
             transition: transform .15s ease, border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
         }
-        .opt-btn:hover { border-color: #f05d3a; background: rgba(240,93,58,0.08); transform: translateY(-2px); }
-        .opt-btn:focus-visible { outline: 2px solid #f05d3a; outline-offset: 2px; }
+
+        .opt-btn:hover {
+            border-color: #f05d3a;
+            background: rgba(240, 93, 58, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .opt-btn:focus-visible {
+            outline: 2px solid #f05d3a;
+            outline-offset: 2px;
+        }
+
         .opt-btn.selected {
             border-color: #f05d3a;
-            background: rgba(240,93,58,0.16);
-            box-shadow: 0 0 0 2px rgba(240,93,58,.35);
+            background: rgba(240, 93, 58, 0.16);
+            box-shadow: 0 0 0 2px rgba(240, 93, 58, .35);
             animation: popScale .28s ease;
         }
-        .opt-emoji { font-size: 1.25rem; line-height: 1; flex-shrink: 0; }
-        .opt-label { font-size: 0.9rem; font-weight: 500; flex: 1; line-height: 1.3; }
-        .opt-check {
-            opacity: 0; transform: scale(.5);
-            transition: all .2s ease;
-            color: #f05d3a; font-weight: 800; flex-shrink: 0;
+
+        .opt-emoji {
+            font-size: 1.25rem;
+            line-height: 1;
+            flex-shrink: 0;
         }
-        .opt-btn.selected .opt-check { opacity: 1; transform: scale(1); }
+
+        .opt-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            flex: 1;
+            line-height: 1.3;
+        }
+
+        .opt-check {
+            opacity: 0;
+            transform: scale(.5);
+            transition: all .2s ease;
+            color: #f05d3a;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .opt-btn.selected .opt-check {
+            opacity: 1;
+            transform: scale(1);
+        }
 
         .icon-box {
-            width: 2.75rem; height: 2.75rem;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.25rem; line-height: 1;
+            width: 2.75rem;
+            height: 2.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            line-height: 1;
         }
 
         /* ---------- Animations ---------- */
         @keyframes popScale {
-            0% { transform: scale(.96); }
-            50% { transform: scale(1.035); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(.96);
+            }
+
+            50% {
+                transform: scale(1.035);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
+
         @keyframes slideFadeIn {
-            from { opacity: 0; transform: translateX(18px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
-        .anim-slide-in { animation: slideFadeIn .38s cubic-bezier(.4,0,.2,1); }
+
+        .anim-slide-in {
+            animation: slideFadeIn .38s cubic-bezier(.4, 0, .2, 1);
+        }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(14px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .anim-fade-up { animation: fadeUp .5s ease both; }
+
+        .anim-fade-up {
+            animation: fadeUp .5s ease both;
+        }
 
         @keyframes floatBlob {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(18px) scale(1.05); }
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(18px) scale(1.05);
+            }
         }
+
         .blob {
-            position: absolute; border-radius: 50%; filter: blur(60px);
-            opacity: .32; z-index: 0; pointer-events: none;
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: .32;
+            z-index: 0;
+            pointer-events: none;
             animation: floatBlob 9s ease-in-out infinite;
         }
-        .blob-a { width: 220px; height: 220px; background: #f05d3a; top: -70px; left: -50px; }
-        .blob-b { width: 190px; height: 190px; background: #AC2D0D; bottom: -60px; right: -40px; animation-delay: 2.2s; }
 
-        input[type="checkbox"]:checked { animation: popScale .25s ease; }
+        .blob-a {
+            width: 220px;
+            height: 220px;
+            background: #f05d3a;
+            top: -70px;
+            left: -50px;
+        }
+
+        .blob-b {
+            width: 190px;
+            height: 190px;
+            background: #AC2D0D;
+            bottom: -60px;
+            right: -40px;
+            animation-delay: 2.2s;
+        }
+
+        input[type="checkbox"]:checked {
+            animation: popScale .25s ease;
+        }
 
         /* ---------- Result page: paint splatter ---------- */
-        .splatter-layer { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+        .splatter-layer {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .splatter-dot {
-            position: absolute; border-radius: 50%; opacity: 0;
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
             animation: dotPop .55s ease forwards;
         }
+
         @keyframes dotPop {
-            0% { opacity: 0; transform: scale(0); }
-            60% { opacity: .9; transform: scale(1.2); }
-            100% { opacity: .75; transform: scale(1); }
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+
+            60% {
+                opacity: .9;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: .75;
+                transform: scale(1);
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
+
+            *,
+            *::before,
+            *::after {
                 animation-duration: .001ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: .001ms !important;
@@ -151,17 +272,20 @@
         }
     </style>
 </head>
+
 <body class="min-h-screen antialiased flex flex-col items-center">
 
     <!-- TOP NAVIGATION BAR -->
     <nav class="w-full px-4 py-4 flex items-center border-b border-gray-800 bg-[#0f141e] sticky top-0 z-50">
         <button id="btnBack" class="mr-4 p-1 hover:bg-gray-800 rounded hidden transition-colors" onclick="handleBack()">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
         </button>
         <h1 id="navTitle" class="text-lg font-semibold tracking-wide">Kuisioner Warna Impian</h1>
-        <div id="xpBadge" style="display:none;" class="ml-auto items-center gap-1.5 text-xs font-bold bg-[#1c2331] border border-gray-700 rounded-full px-3 py-1.5 text-[#f05d3a]">
+        <div id="xpBadge" style="display:none;"
+            class="ml-auto items-center gap-1.5 text-xs font-bold bg-[#1c2331] border border-gray-700 rounded-full px-3 py-1.5 text-[#f05d3a]">
             <span>🏆</span><span id="xpValue">0</span><span class="text-gray-400 font-medium">XP</span>
         </div>
     </nav>
@@ -178,8 +302,10 @@
 
                 <div class="relative inline-block text-3xl md:text-4xl lg:text-[48px] font-bold leading-tight">
                     <span class="relative z-10">Yang Kamu Suka</span>
-                    <svg class="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-2.5 sm:h-3" viewBox="0 0 368 12" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3.17236 9.49995C97.6652 -1.50005 329.01 -3.50005 428.933 9.49995" stroke="#AC2D0D" stroke-width="6.3445" stroke-linecap="round"/>
+                    <svg class="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-2.5 sm:h-3" viewBox="0 0 368 12"
+                        fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.17236 9.49995C97.6652 -1.50005 329.01 -3.50005 428.933 9.49995" stroke="#AC2D0D"
+                            stroke-width="6.3445" stroke-linecap="round" />
                     </svg>
                 </div>
 
@@ -191,51 +317,67 @@
 
         <!-- Kartu Pilihan Gambar -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div id="card-earthy" class="image-card relative rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group" onclick="selectImageOption('earthy')">
-                <div class="card-check absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#f05d3a] flex items-center justify-center opacity-0 scale-0 transition-all duration-300">
-                    <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div id="card-earthy"
+                class="image-card relative rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group"
+                onclick="selectImageOption('earthy')">
+                <div
+                    class="card-check absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#f05d3a] flex items-center justify-center opacity-0 scale-0 transition-all duration-300">
+                    <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-                <img src="gambar/earthy.jpg" alt="Earthy" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
+                <img src="gambar/earthy.jpg" alt="Earthy"
+                    class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
                 <div class="p-4 bg-gray-600 group-hover:bg-[#f05d3a] transition-colors">
                     <h3 class="font-semibold text-lg">Earthy</h3>
                 </div>
             </div>
 
-            <div id="card-warm" class="image-card relative rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group" onclick="selectImageOption('warm')">
-                <div class="card-check absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#f05d3a] flex items-center justify-center opacity-0 scale-0 transition-all duration-300">
-                    <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div id="card-warm"
+                class="image-card relative rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group"
+                onclick="selectImageOption('warm')">
+                <div
+                    class="card-check absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#f05d3a] flex items-center justify-center opacity-0 scale-0 transition-all duration-300">
+                    <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-                <img src="gambar/warm-elegant.jpg" alt="Warm Elegant" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
+                <img src="gambar/warm-elegant.jpg" alt="Warm Elegant"
+                    class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
                 <div class="p-4 bg-gray-600 group-hover:bg-[#f05d3a] transition-colors">
                     <h3 class="font-semibold text-lg">Warm Elegant</h3>
                 </div>
             </div>
 
-            <div id="card-cool" class="image-card relative rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group" onclick="selectImageOption('cool')">
-                <div class="card-check absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#f05d3a] flex items-center justify-center opacity-0 scale-0 transition-all duration-300">
-                    <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div id="card-cool"
+                class="image-card relative rounded-xl overflow-hidden bg-[#1c2331] cursor-pointer hover:ring-4 hover:ring-[#f05d3a] transition-all group"
+                onclick="selectImageOption('cool')">
+                <div
+                    class="card-check absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-[#f05d3a] flex items-center justify-center opacity-0 scale-0 transition-all duration-300">
+                    <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                     </svg>
                 </div>
-                <img src="gambar/cool-minimalist.jpg" alt="Cool Minimalist" class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
+                <img src="gambar/cool-minimalist.jpg" alt="Cool Minimalist"
+                    class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110">
                 <div class="p-4 bg-gray-600 group-hover:bg-[#f05d3a] transition-colors">
                     <h3 class="font-semibold text-lg">Cool Minimalist</h3>
                 </div>
             </div>
         </div>
 
-        <!-- Pertanyaan Singkat (kartu pilihan, bukan dropdown) -->
+        <!-- Pertanyaan Singkat -->
         <div id="step1ExtraQuestions" class="max-w-5xl w-full mx-auto">
 
             <div class="bg-[#1c2331] rounded-2xl p-5 md:p-6 border border-gray-800 mb-5">
                 <div class="flex items-center mb-5">
                     <div class="icon-box bg-[#f05d3a] rounded-xl mr-4">🖌️</div>
                     <div>
-                        <h4 class="font-semibold text-base leading-snug">Seberapa sering Anda akan repainting/memperbarui tampilan rumah?</h4>
+                        <h4 class="font-semibold text-base leading-snug">Seberapa sering Anda akan
+                            repainting/memperbarui tampilan rumah?</h4>
                     </div>
                 </div>
                 <div id="groupFrekuensi" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
@@ -245,15 +387,19 @@
                 <div class="flex items-center mb-5">
                     <div class="icon-box bg-[#f05d3a] rounded-xl mr-4">😟</div>
                     <div>
-                        <h4 class="font-semibold text-base leading-snug">Apa yang Anda khawatirkan saat melakukan repainting?</h4>
+                        <h4 class="font-semibold text-base leading-snug">Apa yang Anda khawatirkan saat melakukan
+                            repainting?</h4>
                     </div>
                 </div>
                 <div id="groupKekhawatiran" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
             </div>
 
             <!-- Toggle Data Personal -->
-            <div class="max-w-2xl w-full mx-auto border border-gray-700 bg-[#1c2331] p-5 rounded-xl flex items-center mb-8 shadow-lg">
-                <input type="checkbox" id="checkPersonalData" onchange="toggleActionButtons()" class="w-6 h-6 rounded bg-gray-300 border-transparent focus:ring-[#f05d3a] text-[#f05d3a] cursor-pointer" checked>
+            <div
+                class="max-w-2xl w-full mx-auto border border-gray-700 bg-[#1c2331] p-5 rounded-xl flex items-center mb-8 shadow-lg">
+                <input type="checkbox" id="checkPersonalData" onchange="toggleActionButtons()"
+                    class="w-6 h-6 rounded bg-gray-300 border-transparent focus:ring-[#f05d3a] text-[#f05d3a] cursor-pointer"
+                    checked>
                 <div class="ml-4 cursor-pointer" onclick="document.getElementById('checkPersonalData').click()">
                     <h4 class="font-semibold text-lg">Lengkapi Data Personal</h4>
                     <p class="text-sm text-gray-400">Mohon lengkapi data diri Anda jika berkenan</p>
@@ -262,23 +408,28 @@
 
             <!-- Tombol Navigasi Dinamis -->
             <div id="btnIsiKuisionerContainer" class="flex justify-end max-w-5xl w-full mx-auto">
-                <button type="button" onclick="goToStep2()" class="bg-[#f05d3a] hover:bg-[#d94a2b] text-white px-6 py-2.5 rounded-lg font-medium flex items-center transition-colors">
+                <button type="button" onclick="goToStep2()"
+                    class="bg-[#f05d3a] hover:bg-[#d94a2b] text-white px-6 py-2.5 rounded-lg font-medium flex items-center transition-colors">
                     Isi Kuisioner
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
                     </svg>
                 </button>
             </div>
 
             <div id="btnSimpanJawabanContainer" class="flex justify-center max-w-5xl w-full mx-auto hidden">
-                <button type="button" onclick="simpanJawabanLangsung()" class="bg-[#f05d3a] hover:bg-[#d94a2b] text-white px-8 py-3 rounded-lg font-medium flex items-center transition-colors shadow-lg">
+                <button type="button" onclick="simpanJawabanLangsung()"
+                    class="bg-[#f05d3a] hover:bg-[#d94a2b] text-white px-8 py-3 rounded-lg font-medium flex items-center transition-colors shadow-lg">
                     Simpan Jawaban
                 </button>
             </div>
         </div>
     </main>
 
-    <!-- STEP 2: HALAMAN KUISIONER (satu pertanyaan per layar, ala kuis) -->
+    <!-- STEP 2: HALAMAN KUISIONER -->
     <main id="step2" class="w-full max-w-xl px-4 py-6 flex flex-col hidden transition-all duration-300">
         <div class="mb-6">
             <div class="flex justify-between items-center text-xs text-gray-400 mb-2">
@@ -296,23 +447,28 @@
     <!-- STEP 3: HALAMAN HASIL KUESIONER -->
     <main id="step3" class="w-full max-w-xl px-4 py-6 flex flex-col hidden transition-all duration-300 space-y-5">
 
-        <!-- Banner Sukses -->
-        <div class="relative overflow-hidden bg-[#1c2331] rounded-2xl p-8 border border-gray-800 text-center flex flex-col items-center">
+        <div
+            class="relative overflow-hidden bg-[#1c2331] rounded-2xl p-8 border border-gray-800 text-center flex flex-col items-center">
             <div id="splatterLayer" class="splatter-layer"></div>
             <div class="relative z-10 flex flex-col items-center">
                 <div class="w-16 h-16 bg-[#3a2c2e] rounded-full flex items-center justify-center mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#f05d3a]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-[#f05d3a]" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                     </svg>
                 </div>
                 <h2 class="text-xl font-bold mb-2">Kuesioner Selesai! 🎉</h2>
-                <p id="resMatchText" class="text-sm text-gray-400 max-w-xs">Berikut adalah profil warna impian untuk ruangan Anda.</p>
+                <p id="resMatchText" class="text-sm text-gray-400 max-w-xs">Berikut adalah profil warna impian untuk
+                    ruangan Anda.</p>
             </div>
         </div>
 
         <!-- Profil Responden Card -->
-        <div class="bg-[#1c2331] rounded-2xl p-5 border border-gray-800 flex items-center space-x-4 anim-fade-up" style="animation-delay:.05s">
-            <div id="resAvatar" class="w-12 h-12 rounded-full bg-[#2a3447] flex items-center justify-center font-bold text-gray-300 text-lg">
+        <div class="bg-[#1c2331] rounded-2xl p-5 border border-gray-800 flex items-center space-x-4 anim-fade-up"
+            style="animation-delay:.05s">
+            <div id="resAvatar"
+                class="w-12 h-12 rounded-full bg-[#2a3447] flex items-center justify-center font-bold text-gray-300 text-lg">
                 JD
             </div>
             <div>
@@ -332,7 +488,9 @@
                     </div>
                     <p id="resStyleName" class="text-lg font-bold text-white">Calm &amp; Natural</p>
                 </div>
-                <span id="resMatchBadge" class="text-xs font-bold text-[#f05d3a] bg-[#f05d3a]/10 border border-[#f05d3a]/30 rounded-full px-3 py-1">92% Match</span>
+                <span id="resMatchBadge"
+                    class="text-xs font-bold text-[#f05d3a] bg-[#f05d3a]/10 border border-[#f05d3a]/30 rounded-full px-3 py-1">92%
+                    Match</span>
             </div>
         </div>
 
@@ -347,47 +505,67 @@
 
         <!-- Action Buttons -->
         <div class="pt-2 space-y-3 anim-fade-up" style="animation-delay:.26s">
-            <button onclick="saveFinalData()" class="w-full bg-[#f05d3a] hover:bg-[#d94a2b] text-white py-3.5 rounded-xl font-bold flex items-center justify-center space-x-2 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            <button onclick="saveFinalData()"
+                class="w-full bg-[#f05d3a] hover:bg-[#d94a2b] text-white py-3.5 rounded-xl font-bold flex items-center justify-center space-x-2 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
                 <span>Simpan Jawaban</span>
             </button>
 
-            <button onclick="restartQuiz()" class="w-full text-center text-xs text-gray-500 hover:text-gray-300 underline underline-offset-2 pt-1 transition-colors">
+            <button onclick="restartQuiz()"
+                class="w-full text-center text-xs text-gray-500 hover:text-gray-300 underline underline-offset-2 pt-1 transition-colors">
                 Ulangi Kuisioner dari Awal
             </button>
         </div>
     </main>
+    <!-- CUSTOM POP-UP OVERLAY -->
+    <div id="customAlertOverlay"
+        class="fixed inset-0 bg-black/70 z-[100] hidden items-center justify-center opacity-0 transition-opacity duration-300 backdrop-blur-sm px-4">
+        <div id="customAlertBox"
+            class="bg-[#1c2331] border border-gray-700 rounded-2xl p-6 max-w-sm w-full transform scale-95 transition-transform duration-300 shadow-2xl">
+            <div class="flex flex-col items-center text-center">
+                <!-- Icon container -->
+                <div id="customAlertIcon" class="w-14 h-14 rounded-full flex items-center justify-center mb-4">
+                </div>
+                <h3 id="customAlertTitle" class="text-xl font-bold text-white mb-2">Peringatan</h3>
+                <p id="customAlertMessage" class="text-gray-300 text-sm mb-6">Pesan peringatan di sini.</p>
+                <button type="button" onclick="closeCustomAlert()"
+                    class="w-full bg-[#f05d3a] hover:bg-[#d94a2b] text-white py-2.5 rounded-xl font-bold transition-colors">
+                    Mengerti
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- NAVIGATION & DYNAMIC DATA LOGIC -->
     <script>
         const resultDatabase = {
             style1: {
                 styleName: "Minimalis Modern",
-                colors: [{name: "Cloud Grey", hex: "#273647"}, {name: "Dusk Mist", hex: "#C2C6D4"}, {name: "Arctic White", hex: "#F3F4F6"}]
+                colors: [{ name: "Cloud Grey", hex: "#273647" }, { name: "Dusk Mist", hex: "#C2C6D4" }, { name: "Arctic White", hex: "#F3F4F6" }]
             },
             style2: {
                 styleName: "Cozy Scandinavian",
-                colors: [{name: "Creamy Latte", hex: "#FDF5E6"}, {name: "Warm Taupe", hex: "#D4B896"}, {name: "Muted Terracotta", hex: "#1E3A8A"}]
+                colors: [{ name: "Creamy Latte", hex: "#FDF5E6" }, { name: "Warm Taupe", hex: "#D4B896" }, { name: "Muted Terracotta", hex: "#1E3A8A" }]
             },
             style3: {
                 styleName: "Natural Tropical",
-                colors: [{name: "Sage Green", hex: "#8F9779"}, {name: "Rattan Beige", hex: "#E3D5CA"}, {name: "Deep Earth", hex: "#5C4033"}]
+                colors: [{ name: "Sage Green", hex: "#8F9779" }, { name: "Rattan Beige", hex: "#E3D5CA" }, { name: "Deep Earth", hex: "#5C4033" }]
             },
             style4: {
                 styleName: "Elegant Luxury",
-                colors: [{name: "Pearl White", hex: "#F8F9FA"}, {name: "Champagne Gold", hex: "#D4AF37"}, {name: "Onyx Black", hex: "#0F0F0F"}]
+                colors: [{ name: "Pearl White", hex: "#F8F9FA" }, { name: "Champagne Gold", hex: "#D4AF37" }, { name: "Onyx Black", hex: "#0F0F0F" }]
             },
             style5: {
                 styleName: "Eclectic & Expressive",
-                colors: [{name: "Sunset Orange", hex: "#FFB5A0"}, {name: "Dusty Rose", hex: "#DCAE96"}, {name: "Sunny Yellow", hex: "#F4D03F"}]
+                colors: [{ name: "Sunset Orange", hex: "#FFB5A0" }, { name: "Dusty Rose", hex: "#DCAE96" }, { name: "Sunny Yellow", hex: "#F4D03F" }]
             }
         };
 
         const styleIcons = { style1: "🏙️", style2: "☕", style3: "🌿", style4: "💎", style5: "🎨" };
-
-        // --- Data pertanyaan kuisioner (dipakai untuk render kartu satu-per-satu) ---
         const quizQuestions = [
             {
                 key: "q1", icon: "🏡",
@@ -523,7 +701,7 @@
         const xpBadge = document.getElementById('xpBadge');
         const xpValue = document.getElementById('xpValue');
 
-        // --- 0. RENDER PILIHAN CEPAT DI STEP 1 (kartu, bukan dropdown) ---
+        // --- 0. RENDER ---
         function renderQuickOptions(containerId, options, group) {
             const container = document.getElementById(containerId);
             container.innerHTML = options.map(opt => `
@@ -580,7 +758,7 @@
             document.getElementById('errorPilihGambar').classList.add('hidden');
         }
 
-        // --- 2. TOMBOL DINAMIS SESUAI CHECKBOX ---
+        // --- 2. CHECKBOX ---
         function toggleActionButtons() {
             const isChecked = checkPersonalData.checked;
             const btnIsi = document.getElementById('btnIsiKuisionerContainer');
@@ -607,23 +785,18 @@
         }
 
         function goToStep2() {
-            const errorText = document.getElementById('errorPilihGambar');
-
             if (!selectedImageStyle) {
-                errorText.innerText = "⚠️ Silakan pilih salah satu gambar warna terlebih dahulu!";
-                errorText.classList.remove('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                showCustomAlert("Peringatan", "Silakan pilih salah satu gambar warna terlebih dahulu!", "error");
                 return;
             }
 
             if (!selectedFrekuensi || !selectedKekhawatiran) {
-                errorText.innerText = "⚠️ Lengkapi dulu 2 pertanyaan di bawah sebelum lanjut!";
-                errorText.classList.remove('hidden');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                showCustomAlert("Data Belum Lengkap", "Silakan jawab 2 pertanyaan mengenai repainting di atas sebelum lanjut.", "error");
                 return;
             }
+            const errorText = document.getElementById('errorPilihGambar');
+            if (errorText) errorText.classList.add('hidden');
 
-            errorText.classList.add('hidden');
             enterStep2();
         }
 
@@ -632,7 +805,7 @@
             activePages = buildActivePages();
             currentPageIndex = 0;
             quizAnswers = {};
-            totalXP = 10; // poin awal dari pertanyaan cepat di step 1
+            totalXP = 10;
             updateXP();
 
             step1.classList.add('hidden');
@@ -658,7 +831,7 @@
             xpBadge.style.display = 'flex';
         }
 
-        // --- 3. RENDER SATU HALAMAN KUIS PADA SUATU WAKTU ---
+        // --- 3. RENDER SATU HALAMAN KUIS ---
         function renderQuizPage() {
             const page = activePages[currentPageIndex];
             const total = activePages.length;
@@ -743,7 +916,7 @@
             const form = document.getElementById('personalPageForm');
             const telepon = document.getElementById('inputTelepon').value.trim();
             if (!telepon.startsWith('08') && !telepon.startsWith('628')) {
-                alert("Nomor telepon harus diawali dengan '08' atau '628'!");
+                showCustomAlert("Format Tidak Valid", "Nomor telepon harus diawali dengan '08' atau '628'!", "error");
                 inputTelepon.focus();
                 return;
             }
@@ -834,6 +1007,7 @@
         function renderResult(resultData, matchPercent, winningStyle) {
             currentStep = 3;
             step1.classList.add('hidden'); step2.classList.add('hidden'); step3.classList.remove('hidden');
+            void step3.offsetWidth;
             btnBack.classList.remove('hidden');
             navTitle.innerText = "Hasil Kuesioner";
 
@@ -842,7 +1016,7 @@
 
             if (checkPersonalData.checked && personalData.nama !== "") {
                 resNameEl.innerText = personalData.nama;
-                const initials = personalData.nama.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                const initials = personalData.nama.split(' ').filter(n => n).map(n => n[0]).join('').substring(0, 2).toUpperCase();
                 resAvatarEl.innerText = initials || "JD";
             } else {
                 resNameEl.innerText = "Anonim";
@@ -854,7 +1028,6 @@
             document.getElementById('resMatchBadge').innerText = matchPercent + "% Match";
             document.getElementById('resMatchText').innerText = `Cocok ${matchPercent}% dengan gaya "${resultData.styleName}". Ini palet warna impian untuk ruanganmu.`;
 
-            // Palet warna (animasi tumbuh dari 0%)
             const colorContainer = document.getElementById('colorContainer');
             const colorList = document.getElementById('colorList');
             colorContainer.innerHTML = '';
@@ -931,7 +1104,50 @@
             goToStep1();
         }
 
-        // --- 6. PENGIRIMAN DATA KE GOOGLE SHEET ---
+        // --- 7. CUSTOM POP-UP ALERT ---
+        function showCustomAlert(title, message, type = 'error') {
+            const overlay = document.getElementById('customAlertOverlay');
+            const box = document.getElementById('customAlertBox');
+            const titleEl = document.getElementById('customAlertTitle');
+            const messageEl = document.getElementById('customAlertMessage');
+            const iconEl = document.getElementById('customAlertIcon');
+
+            titleEl.innerText = title;
+            messageEl.innerText = message;
+
+            if (type === 'success') {
+                iconEl.className = 'w-14 h-14 rounded-full flex items-center justify-center mb-4 bg-green-500/20 text-green-500';
+                iconEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
+            } else {
+                iconEl.className = 'w-14 h-14 rounded-full flex items-center justify-center mb-4 bg-red-500/20 text-[#f05d3a]';
+                iconEl.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>`;
+            }
+
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+
+            setTimeout(() => {
+                overlay.classList.remove('opacity-0');
+                box.classList.remove('scale-95');
+                box.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeCustomAlert() {
+            const overlay = document.getElementById('customAlertOverlay');
+            const box = document.getElementById('customAlertBox');
+
+            overlay.classList.add('opacity-0');
+            box.classList.remove('scale-100');
+            box.classList.add('scale-95');
+
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                overlay.classList.remove('flex');
+            }, 300);
+        }
+
+        // --- 6. GOOGLE SHEET ---
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybM_Awj792Xy4d9X-UzPXO2FVBJN62djn5l90L4aLCAyv1d6qmuVfoVPFB2UCEV7YJrg/exec";
 
         function sendDataToGoogleSheet(dataPayload) {
@@ -945,13 +1161,13 @@
                 },
                 body: JSON.stringify(dataPayload)
             })
-            .then(() => {
-                alert("Jawaban berhasil disimpan ke Google Sheet!");
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert("Gagal menyimpan data. Silakan periksa koneksi internet Anda.");
-            });
+                .then(() => {
+                    showCustomAlert("Berhasil!", "Jawaban berhasil disimpan!", "success");
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showCustomAlert("Pengiriman Gagal", "Gagal menyimpan data. Silakan periksa koneksi internet Anda.", "error");
+                });
         }
 
         function collectAndSaveData(hasilStyleNama = "-") {
@@ -974,7 +1190,12 @@
 
         function simpanJawabanLangsung() {
             if (!selectedImageStyle) {
-                alert("Silakan pilih salah satu gambar terlebih dahulu!");
+                showCustomAlert("Peringatan", "Silakan pilih salah satu gambar terlebih dahulu!", "error");
+                return;
+            }
+
+            if (!selectedFrekuensi || !selectedKekhawatiran) {
+                showCustomAlert("Data Belum Lengkap", "Silakan jawab 2 pertanyaan terlebih dahulu", "error");
                 return;
             }
             collectAndSaveData("Tanpa Kuesioner (Hanya Pilihan Gambar)");
@@ -986,4 +1207,5 @@
         }
     </script>
 </body>
+
 </html>
